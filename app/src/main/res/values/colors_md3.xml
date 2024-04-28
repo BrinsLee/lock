@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="elevationOverlayLight">@color/md_grey_500</color>
+    <color name="elevationOverlayDark">@color/md_grey_500</color>
+    <color name="elevationOverlayBlack">@color/md_black_1000</color>
+    <color name="elevationOverlay">@color/elevationOverlayLight</color>
+
+
+    <color name="color_000000_90">#E6000000</color>
+    <color name="color_000000_86">#DB000000</color>
+    <color name="color_000000_80">#CC000000</color>
+    <color name="color_000000_75">#BF000000</color>
+    <color name="color_000000_70">#B2000000</color>
+    <color name="color_000000_60">#99000000</color>
+    <color name="color_000000_50">#80000000</color>
+    <color name="color_000000_40">#66000000</color>
+    <color name="color_000000_30">#4D000000</color>
+    <color name="color_000000_20">#33000000</color>
+    <color name="color_000000_10">#1A000000</color>
+    <color name="color_000000_05">#0D000000</color>
+    <color name="color_000000_03">#08000000</color>
+
+    <color name="color_272727_60">#99272727</color>
+    <color name="color_262626_80">#CC262626</color>
+    <color name="color_262626_90">#E6262626</color>
+    <!--  黑色end  -->
+
+    <!--   白色 -->
+    <color name="color_FFFFFF_90">#E6FFFFFF</color>
+    <color name="color_FFFFFF_70">#B2FFFFFF</color>
+    <color name="color_FFFFFF_60">#99FFFFFF</color>
+    <color name="color_FFFFFF_40">#66FFFFFF</color>
+    <color name="color_FFFFFF_30">#4DFFFFFF</color>
+    <color name="color_FFFFFF_20">#33FFFFFF</color>
+    <color name="color_FFFFFF_10">#1AFFFFFF</color>
+    <color name="color_FFFFFF_05">#0DFFFFFF</color>
+    <color name="color_FFFFFF_03">#08FFFFFF</color>
+    <color name="color_FFFFFF_04">#0AFFFFFF</color>
+    <color name="color_FFFFFF_00">#00FFFFFF</color>
+    <!--   白色 end -->
+
+    <!--  F5F5F5  -->
+    <color name="color_F5F5F5_90">#E6F5F5F5</color>
+    <color name="color_F5F5F5_60">#99F5F5F5</color>
+    <color name="color_F5F5F5_40">#66F5F5F5</color>
+    <color name="color_F5F5F5_33">#33F5F5F5</color>
+    <color name="color_F5F5F5_30">#4DF5F5F5</color>
+    <color name="color_F5F5F5_20">#33F5F5F5</color>
+    <color name="color_F5F5F5_10">#1AF5F5F5</color>
+    <color name="color_F5F5F5_05">#0DF5F5F5</color>
+    <color name="color_F5F5F5_03">#08F5F5F5</color>
+    <!--  F5F5F5 end -->
+
+    <color name="color_3A4539_49">#7D3A4539</color>
+    <color name="color_746ACC_60">#99746ACC</color>
+
+    <color name="color_5C95E5_20">#335C95E5</color>
+
+
+    <color name="color_14CCAE_30">#4D14CCAE</color>
+    <color name="color_14CCAE_10">#1A14CCAE</color>
+
+
+    <color name="color_6687FF_74">#BD6687FF</color>
+    <color name="color_10A38B_10">#1A10A38B</color>
+    <color name="color_14CCAE_20">#3314CCAE</color>
+    <color name="color_14CCAE_40">#6614CCAE</color>
+    <color name="color_442011_30">#4420114D</color>
+    <color name="color_1C1C1C_73">#BA1C1C1C</color>
+    <color name="color_1C1C1C_90">#E61C1C1C</color>
+    <color name="color_FFDD33">#FFDD33</color>
+</resources>

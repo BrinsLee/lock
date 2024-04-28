@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TopAppBarLayout">
+        <attr name="topAppBarLayoutStyle" format="enum">
+            <enum name="simple" value="0" />
+            <enum name="collapsing" value="1" />
+        </attr>
+        <attr name="title" format="string">
+
+        </attr>
+
+        <attr name="topNavigationIcon" format="reference|color">
+
+        </attr>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,73 @@
+[versions]
+agp = "8.4.0-alpha11"
+appcompatV7 = "28.0.0"
+baserecyclerviewadapterhelper4 = "4.1.4"
+core = "3.3.0"
+googleMaterial = "1.4.0"
+gson = "2.10.1"
+hiltAndroidGradlePlugin = "2.49"
+insetter = "0.6.1"
+kotlin = "1.9.0"
+coreKtx = "1.13.0"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+appcompat = "1.6.1"
+lifecycleViewmodelKtx = "2.6.0"
+lifecycleLivedataKtx = "2.6.0"
+material = "1.11.0"
+activity = "1.8.2"
+constraintlayout = "2.1.4"
+hilt_version = "2.49"
+materialCab = "2.0.1"
+materialVersion = "1.10.0"
+navigationFragmentKtx = "2.7.5"
+navigationSafeArgsGradlePlugin = "2.7.6"
+preferenceKtx = "1.2.0"
+protobufGradlePlugin = "0.8.15"
+protobufJava = "3.22.3"
+protoc = "3.5.1"
+recyclerview = "1.3.1"
+leakcanary-android = "2.14"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycleViewmodelKtx" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
+appcompat-v7 = { module = "com.android.support:appcompat-v7", version.ref = "appcompatV7" }
+base-recyclerView-adapter-helper4 = { module = "io.github.cymchad:BaseRecyclerViewAdapterHelper4", version.ref = "baserecyclerviewadapterhelper4" }
+color = { module = "com.afollestad.material-dialogs:color", version.ref = "core" }
+core = { module = "com.afollestad.material-dialogs:core", version.ref = "core" }
+dagger-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroidGradlePlugin" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+input = { module = "com.afollestad.material-dialogs:input", version.ref = "core" }
+insetter = { module = "dev.chrisbanes.insetter:insetter", version.ref = "insetter" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt_version" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt_version" }
+material-cab = { module = "com.afollestad:material-cab", version.ref = "materialCab" }
+material-v1100 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+material-v140 = { module = "com.google.android.material:material", version.ref = "googleMaterial" }
+protobuf-gradle-plugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protoc" }
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobufJava" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary-android" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+dagger-hilt-android = { id = "dagger.hilt.android.plugin" }
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_item_graph"
+    app:startDestination="@id/mainAddItemFragment">
+
+    <fragment
+        android:id="@+id/mainAddItemFragment"
+        android:name="com.lock.locksmith.fragments.add.MainItemSelectFragment"
+        android:label="AddItem"/>
+
+    <fragment
+        android:id="@+id/addPasswordFragment"
+        android:name="com.lock.locksmith.fragments.add.AddPasswordFragment"
+        android:label="AddPassword"
+        tools:layout="@layout/fragment_add_item"
+        />
+</navigation>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.apptheme.helper.common.prefs.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="@string/pref_header_general">
+
+        <com.apptheme.helper.common.prefs.ATEListPreference
+            android:defaultValue="auto"
+            android:entries="@array/pref_general_theme_list_titles"
+            android:entryValues="@array/pref_general_theme_list_values"
+            android:key="general_theme"
+            android:layout="@layout/list_item_view"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_general_theme"
+            app:icon="@drawable/ic_palette_outline" />
+    </com.apptheme.helper.common.prefs.ATEPreferenceCategory>
+
+    <com.apptheme.helper.common.prefs.ATEColorPreference
+        android:key="accent_color"
+        android:layout="@layout/list_item_color_view"
+        android:persistent="false"
+        android:summary="@string/accent_color_desc"
+        android:title="@string/accent_color"
+        app:icon="@drawable/ic_colorize" />
+
+
+    <com.apptheme.helper.common.prefs.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="@string/pref_language_general">
+
+    <com.apptheme.helper.common.prefs.ATEListPreference
+        android:defaultValue="auto"
+        android:entries="@array/pref_language_names"
+        android:entryValues="@array/pref_language_codes"
+        android:key="language_name"
+        android:layout="@layout/list_item_view"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_language_name"
+        app:icon="@drawable/ic_language" />
+
+    </com.apptheme.helper.common.prefs.ATEPreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

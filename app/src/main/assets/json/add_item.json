@@ -1,0 +1,32 @@
+[
+  {
+    "group_name": "1",
+    "group_list": [
+      {
+        "title_res": "password",
+        "icon_res" : 0
+      },
+      {
+        "title_res": "secure_note",
+        "icon_res" : 0
+      },
+      {
+        "title_res": "contact_info",
+        "icon_res" : 0
+      }
+    ]
+  },
+  {
+    "group_name": "2",
+    "group_list": [
+      {
+        "title_res": "payment_card",
+        "icon_res" : 0
+      },
+      {
+        "title_res": "bank_account",
+        "icon_res" : 0
+      }
+    ]
+  }
+]

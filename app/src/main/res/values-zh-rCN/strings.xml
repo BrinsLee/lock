@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">锁匠</string>
+    <string name="setting">设置</string>
+    <string name="home">主页</string>
+    <string name="pref_header_general">主题</string>
+    <string name="light_theme_name">浅色</string>
+    <string name="dark_theme_name">深色</string>
+    <string name="follow_system">跟随系统</string>
+    <string name="pref_language_name">选择语言</string>
+    <string name="System_default">系统默认</string>
+    <string name="Simplified_Chinese">简体中文</string>
+    <string name="English">英语</string>
+    <string name="pref_title_general_theme">应用主题</string>
+    <string name="Setting">设置</string>
+    <string name="accent_color_desc">主题强调色，默认为紫色</string>
+    <string name="accent_color">强调色</string>
+    <string name="pref_language_general">语言</string>
+    <string name="all_items">所有项目</string>
+    <string name="passwords">密码</string>
+    <string name="secure_notes">安全笔记</string>
+    <string name="contact_info">联系信息</string>
+    <string name="add_item">添加项目</string>
+    <string name="payment_card">银行卡</string>
+    <string name="bank_account">银行账户</string>
+    <string name="save">保存</string>
+    <string name="itemName">项目名称</string>
+</resources>

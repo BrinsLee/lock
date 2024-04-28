@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Locksmith" parent="Theme.Locksmith.Base" />
+
+    <style name="Theme.Locksmith.Light" parent="Theme.Locksmith.Base.Light" />
+
+    <style name="Theme.Locksmith.Black" parent="Theme.Locksmith.Base.Black" />
+
+    <style name="Theme.Locksmith.FollowSystem" parent="Theme.Locksmith.Base.Adaptive">
+        <item name="android:windowBackground">?colorSurface</item>
+    </style>
+
+    <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog" />
+
+
+    <style name="MaterialButtonTheme" parent="Widget.Material3.Button">
+        <item name="cornerRadius">6dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textAppearance">@style/TextViewNormal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingTop">@dimen/button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
+    </style>
+
+    <style name="MaterialPopupMenuStyle" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_background</item>
+    </style>
+
+
+    <style name="TextViewOverline" parent="TextAppearance.MaterialComponents.Overline">
+    </style>
+
+    <style name="TextViewSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+    </style>
+
+    <style name="TextViewNormal" parent="">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextViewHeadline6" parent="TextAppearance.MaterialComponents.Headline6">
+    </style>
+
+    <style name="TextViewHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
+    </style>
+
+    <style name="TextViewHeadline4" parent="TextAppearance.MaterialComponents.Headline4">
+    </style>
+
+
+
+    <style name="Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="popupTheme">?toolbarPopupTheme</item>
+        <item name="android:transitionName" tools:ignore="NewApi">toolbar</item>
+        <item name="layout_collapseMode">pin</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="titleMarginStart">16dp</item>
+    </style>
+
+
+    <style name="ToolbarTextAppearanceNormal">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0.0125</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="CenteredCheckBoxTheme">
+        <item name="checkboxStyle">@style/CheckBoxStyle</item>
+    </style>
+
+    <style name="CheckBoxStyle" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:gravity">center_vertical|end</item>
+    </style>
+
+    <style name="NoUnderlineTextInput" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxStrokeColor">@android:color/transparent</item> <!-- 移除边框颜色 -->
+        <item name="boxStrokeWidth">0dp</item> <!-- 边框宽度设为0 -->
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxBackgroundColor">@color/md_deep_purple_A200</item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox.Medium
+        </item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox.Medium" parent="">
+        <item name="cornerSizeBottomLeft">@dimen/edittext_radius</item>
+        <item name="cornerSizeBottomRight">@dimen/edittext_radius</item>
+    </style>
+</resources>

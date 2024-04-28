@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">locksmith</string>
+    <string name="setting">setting</string>
+    <string name="Setting">Setting</string>
+    <string name="home">home</string>
+    <string name="pref_header_general">theme</string>
+    <string name="light_theme_name">Light</string>
+    <string name="dark_theme_name">Dark</string>
+    <string name="follow_system">Follow system</string>
+    <string name="accent_color">Accent color</string>
+    <string name="accent_color_desc">The theme accent color, defaults to purple</string>
+    <string name="pref_language_name">Select language</string>
+    <string name="pref_language_general">language</string>
+    <string name="System_default">System default</string>
+    <string name="Simplified_Chinese">Simplified Chinese</string>
+    <string name="English">English</string>
+
+    <string name="grid_size_1" translatable="false">1</string>
+    <string name="grid_size_2" translatable="false">2</string>
+    <string name="grid_size_3" translatable="false">3</string>
+    <string name="grid_size_4" translatable="false">4</string>
+    <string name="grid_size_5" translatable="false">5</string>
+    <string name="grid_size_6" translatable="false">6</string>
+    <string name="grid_size_7" translatable="false">7</string>
+    <string name="grid_size_8" translatable="false">8</string>
+    <string name="pref_title_general_theme">App theme</string>
+    <string name="all_items">All items</string>
+    <string name="passwords">Passwords</string>
+    <string name="secure_notes">Secure notes</string>
+    <string name="contact_info">Contact info</string>
+    <string name="add_item">Add item</string>
+    <string name="payment_card">Payment Card</string>
+    <string name="bank_account">Bank account</string>
+    <string name="save">save</string>
+    <string name="itemName">item name</string>
+</resources>
