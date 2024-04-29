@@ -9,7 +9,13 @@ import androidx.annotation.LayoutRes
 import androidx.core.view.MenuProvider
 import com.apptheme.helper.ThemeStore
 import com.lock.locksmith.R
+import com.lock.locksmith.activities.MainActivity
 import com.lock.locksmith.databinding.FragmentAddItemBinding
+import com.lock.locksmith.model.base.BaseData
+import com.lock.locksmith.model.password.PasswordData
+import com.lock.locksmith.viewmodel.AddItemViewModel
+import com.lock.locksmith.viewmodel.AddItemViewModel.AddItemEvent.AddPasswordEvent
+import kotlin.math.abs
 
 /**
  * @author lipeilin
@@ -18,6 +24,8 @@ import com.lock.locksmith.databinding.FragmentAddItemBinding
  */
 abstract class BaseAddItemFragment(@LayoutRes var childLayout: Int) :
     AbsBaseFragment(R.layout.fragment_add_item) {
+
+    protected lateinit var addItemViewModel: AddItemViewModel
 
     private var _viewBinding: FragmentAddItemBinding? = null
 
@@ -31,12 +39,34 @@ abstract class BaseAddItemFragment(@LayoutRes var childLayout: Int) :
     protected var accentColor: Int = com.theme.helper.R.color.md_deep_purple_A200
 
     private val menuProvider: MenuProvider = object : MenuProvider {
+        private var lastInvokeTime = System.currentTimeMillis()
+
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.add_item_menu, menu)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            return true
+            val current = System.currentTimeMillis()
+            if (abs(current - lastInvokeTime) < 500) {
+                return true
+            }
+            lastInvokeTime = current
+            return onMenuItemClick(menuItem)
+        }
+    }
+
+    protected open fun onMenuItemClick(menuItem: MenuItem): Boolean {
+        return true
+    }
+
+    protected open fun saveItemInfo(itemData: BaseData) {
+        when(itemData) {
+            is PasswordData -> {
+                addItemViewModel.addItem(AddPasswordEvent(itemData))
+            }
+            else -> {
+                //TODO
+            }
         }
     }
 
@@ -44,12 +74,32 @@ abstract class BaseAddItemFragment(@LayoutRes var childLayout: Int) :
         super.onCreate(savedInstanceState)
         requireActivity().addMenuProvider(menuProvider)
         accentColor = ThemeStore.accentColor(requireContext())
+        addItemViewModel = (absBaseActivity as MainActivity).getAddItemViewModel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _viewBinding = FragmentAddItemBinding.bind(view)
         setupChildView()
+        setupObserver()
+    }
+
+    private fun setupObserver() {
+        addItemViewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is AddItemViewModel.State.Loading -> {
+                    showLoadingDialog()
+                }
+                is AddItemViewModel.State.Result -> {
+                    dismissLoadingDialog()
+                }
+            }
+        }
+
+        addItemViewModel.errorEvents.observe(viewLifecycleOwner) {
+            dismissLoadingDialog()
+
+        }
     }
 
     protected open fun setupChildView() {

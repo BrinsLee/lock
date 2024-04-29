@@ -64,6 +64,17 @@ abstract class BaseData(
     }
 
 
+/*    fun encryptMeta(meta: AccountItemOuterClass.AccountItemMeta?): AesEncryptedData? {
+        return try {
+            repository.encryptData(meta!!.toByteArray())
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to encrypt meta", e)
+            null
+        }
+
+    }*/
+
+
     fun encryptData(plainText: String) {
         val secretItems = decryptSecret()
         secretItems?.let {
@@ -115,5 +126,8 @@ abstract class BaseData(
         }
         return secrets
     }
+
+
+    fun getMetaAccountId(): ByteArray = metaData!!.accountID.toByteArray()
 
 }

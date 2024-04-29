@@ -64,14 +64,17 @@ class HomeFragment : AbsBaseFragment(R.layout.fragment_home) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         TABS_TITLE = arrayOf(
             requireContext().getString(R.string.all_items),
             requireContext().getString(R.string.passwords),
             requireContext().getString(R.string.secure_notes),
             requireContext().getString(R.string.contact_info)
         )
+
         titleList = TABS_TITLE.toMutableList()
             .mapIndexed { index, string -> TabBean(index.toString(), string) }
+
     }
 
     override fun onCreateView(

@@ -1,21 +1,40 @@
 package com.lock.locksmith.activities
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.FrameLayout
 import androidx.activity.viewModels
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.biometric.BiometricPrompt.AuthenticationCallback
+import androidx.biometric.BiometricPrompt.AuthenticationResult
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.contains
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle.Event.ON_START
+import androidx.lifecycle.Lifecycle.Event.ON_STOP
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.lock.locksmith.LockSmithApplication
 import com.lock.locksmith.R
 import com.lock.locksmith.activities.base.AbsBaseActivity
 import com.lock.locksmith.databinding.ActivityMainBinding
 import com.lock.locksmith.extensions.currentFragment
+import com.lock.locksmith.extensions.dp
 import com.lock.locksmith.extensions.findNavController
 import com.lock.locksmith.extensions.hide
 import com.lock.locksmith.extensions.show
+import com.lock.locksmith.extensions.showToast
 import com.lock.locksmith.viewmodel.AddItemViewModel
+import com.lock.locksmith.views.BlurMaskLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +45,51 @@ class MainActivity : AbsBaseActivity() {
     val navigationView get() = binding.navigationView
 
     val isBottomNavVisible get() = navigationView.isVisible && navigationView is BottomNavigationView
+
+    private val blurMaskLayout: BlurMaskLayout by lazy {
+        BlurMaskLayout(this).apply {
+            layoutParams =
+                ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            elevation = 5.dp.toFloat()
+        }
+    }
+
+    private val biometricPrompt: BiometricPrompt by lazy {
+        BiometricPrompt(
+            this,
+            ContextCompat.getMainExecutor(this),
+            object : AuthenticationCallback() {
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
+                        // user clicked negative button
+                    } else {
+                        showToast(errString.toString())
+                    }
+                }
+
+                override fun onAuthenticationSucceeded(result: AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Log.d("MAINACTIVITY", "onAuthenticationSucceeded")
+                    binding.main.removeView(blurMaskLayout)
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+
+                }
+            })
+    }
+
+    private val promptInfo: BiometricPrompt.PromptInfo by lazy {
+        BiometricPrompt.PromptInfo.Builder()
+            .setTitle(getString(R.string.unlock_with_biometrics))
+            .setSubtitle(getString(R.string.unlock_with_fingerprint))
+            // .setNegativeButtonText(getString(R.string.cancel))
+            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+            .build()
+    }
 
     private val _addItemViewModel: AddItemViewModel by viewModels()
     fun getAddItemViewModel() = _addItemViewModel
@@ -39,6 +103,8 @@ class MainActivity : AbsBaseActivity() {
         setContentView(binding.root)
         initData()
         initView()
+        Log.d("MAINACTIVITY", "onCreate")
+
         /*        enableEdgeToEdge()
                 setContentView(R.layout.activity_main)
                 ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -55,7 +121,21 @@ class MainActivity : AbsBaseActivity() {
     }
 
     override fun initView() {
+        blurMaskLayout.apply {
+            setupWith(binding.main)
+            biometricPrompt = this@MainActivity.biometricPrompt
+            promptInfo = this@MainActivity.promptInfo
+        }
         setupNavigationController()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MAINACTIVITY", "onStart")
+        if (!binding.main.contains(blurMaskLayout)) {
+            binding.main.addView(blurMaskLayout)
+        }
+        // binding.blur.visibility = View.VISIBLE
     }
 
     private fun setupNavigationController() {
@@ -81,8 +161,8 @@ class MainActivity : AbsBaseActivity() {
             when (destination.id) {
                 R.id.action_home, R.id.action_setting -> {
                     setBottomNavVisibility(visible = true, animate = true)
-
                 }
+
                 else -> {
                     setBottomNavVisibility(visible = false, animate = true)
                 }

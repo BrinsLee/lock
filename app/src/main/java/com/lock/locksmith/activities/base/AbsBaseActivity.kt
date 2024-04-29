@@ -1,5 +1,6 @@
 package com.lock.locksmith.activities.base
 
+import android.content.DialogInterface.OnDismissListener
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
@@ -8,9 +9,9 @@ import android.view.WindowManager.LayoutParams
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.content.getSystemService
-import androidx.core.view.ViewCompat
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.lock.locksmith.extensions.isShowing
+import com.lock.locksmith.fragments.dialog.LoadingDialogFragment
+import com.lock.locksmith.interfaces.ILoading
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -19,7 +20,9 @@ import dagger.hilt.android.AndroidEntryPoint
  * @desc
  */
 @AndroidEntryPoint
-abstract class AbsBaseActivity : AbsThemeActivity(){
+abstract class AbsBaseActivity : AbsThemeActivity(), ILoading{
+
+    private var mLoadingDialog: LoadingDialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE)
@@ -56,5 +59,38 @@ abstract class AbsBaseActivity : AbsThemeActivity(){
         return super.dispatchTouchEvent(event)
     }
 
+    override fun showLoadingDialog() {
+        if (!isFinishing) {
+            if (mLoadingDialog == null) {
+                mLoadingDialog = LoadingDialogFragment.create()
+                mLoadingDialog!!.isCancelable = false
+            }
+            if (!mLoadingDialog.isShowing()) {
+                mLoadingDialog!!.show(supportFragmentManager, "loading")
+            }
+        }
+    }
 
+    override fun showLoadingDialog(listener: OnDismissListener) {
+        if (!isFinishing) {
+            if (mLoadingDialog == null) {
+                mLoadingDialog = LoadingDialogFragment.create()
+            }
+            if (!mLoadingDialog.isShowing()) {
+                mLoadingDialog!!.show(supportFragmentManager, "loading")
+                mLoadingDialog!!.onDismissListener = listener
+            }
+        }
+    }
+
+    override fun dismissLoadingDialog() {
+        if (!isFinishing) {
+            if (mLoadingDialog != null) {
+                if (mLoadingDialog.isShowing()) {
+                    mLoadingDialog!!.dismiss()
+                }
+                mLoadingDialog = null
+            }
+        }
+    }
 }

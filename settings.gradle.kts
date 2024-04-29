@@ -23,4 +23,4 @@ rootProject.name = "locksmith"
 include(":app")
 include(":appthemehelper")
 include(":magicindicator")
- 
+include(":result")

@@ -67,7 +67,7 @@ class MainItemSelectFragment: AbsRecyclerViewFragment<ConcatAdapter, RecyclerVie
             layoutManager = mLayoutManager
             adapter = mAdapter
         }
-        addItemViewModel = absBaseActivity!!.getAddItemViewModel()
+        addItemViewModel = (absBaseActivity as MainActivity).getAddItemViewModel()
         addItemViewModel.itemData.observe(viewLifecycleOwner) {
             it.forEach {
                 val adapter = GroupAdapter()

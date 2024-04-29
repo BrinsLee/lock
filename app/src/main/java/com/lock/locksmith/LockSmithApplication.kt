@@ -4,7 +4,15 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
+import androidx.lifecycle.Lifecycle.Event.ON_START
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
+import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.apptheme.helper.ThemeStore
+import com.lock.locksmith.activities.ErrorActivity
+import com.lock.locksmith.activities.MainActivity
+import com.lock.locksmith.repository.PassportClient
 import dagger.hilt.android.HiltAndroidApp
 import java.util.Stack
 
@@ -30,8 +38,19 @@ class LockSmithApplication : Application(), ActivityLifecycleCallbacks {
         super.onCreate()
         instance = this
         initDefaultTheme()
+        initErrorActivity()
+        initPasswordClient()
         //管理所有的Activity
         registerActivityLifecycleCallbacks(this)
+    }
+
+    private fun initPasswordClient() {
+        PassportClient.Builder(this).build()
+    }
+
+    private fun initErrorActivity() {
+        CaocConfig.Builder.create().errorActivity(ErrorActivity::class.java)
+            .restartActivity(MainActivity::class.java).apply()
     }
 
     private fun initDefaultTheme() {

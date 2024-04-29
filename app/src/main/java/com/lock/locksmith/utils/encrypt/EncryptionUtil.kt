@@ -6,12 +6,17 @@ import java.nio.ByteBuffer
 import java.security.GeneralSecurityException
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
+import java.security.KeyPair
+import java.security.KeyPairGenerator
 import java.security.NoSuchAlgorithmException
+import java.security.NoSuchProviderException
+import java.security.spec.ECGenParameterSpec
 import java.util.UUID
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
 import javax.crypto.KeyGenerator
+import javax.crypto.NoSuchPaddingException
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -21,6 +26,11 @@ import javax.crypto.spec.SecretKeySpec
  * @date 2024/4/26
  * @desc 加解密工具
  */
+
+@Throws(NoSuchPaddingException::class, NoSuchAlgorithmException::class)
+fun newAesInKeystore(): Cipher {
+    return Cipher.getInstance("AES/GCM/NoPadding")
+}
 
 /***生成uuid*/
 fun newUUID(): ByteArray {
@@ -49,6 +59,21 @@ fun newAesCipher(): Cipher? {
     }
 
     return null
+}
+
+
+/***生成EC密钥对*/
+@Throws(
+    RuntimeException::class,
+    NoSuchAlgorithmException::class,
+    InvalidAlgorithmParameterException::class,
+    NoSuchProviderException::class
+)
+fun generateKeyPair(): KeyPair {
+    val keyPairGenerator = KeyPairGenerator.getInstance("EC")
+    val spec = ECGenParameterSpec("prime256v1")
+    keyPairGenerator.initialize(spec)
+    return keyPairGenerator.generateKeyPair()
 }
 
 

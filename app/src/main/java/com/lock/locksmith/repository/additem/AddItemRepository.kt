@@ -6,6 +6,8 @@ import com.lock.locksmith.ADD_ITEM_PATH
 import com.lock.locksmith.LockSmithApplication
 import com.lock.locksmith.bean.AddItemData
 import com.lock.locksmith.bean.Group
+import com.lock.locksmith.model.base.BaseData
+import com.lock.locksmith.repository.PassportClient
 import com.lock.locksmith.utils.StringUtils
 import com.lock.locksmith.utils.gson.GroupDeserializer
 import javax.inject.Inject
@@ -15,7 +17,7 @@ import javax.inject.Inject
  * @date 2024/4/25
  * @desc
  */
-class AddItemRepository @Inject constructor(): IAddItemRepository {
+class AddItemRepository @Inject constructor(private val client: PassportClient): IAddItemRepository {
 
 
     override fun getItemData(): AddItemData {
@@ -23,5 +25,9 @@ class AddItemRepository @Inject constructor(): IAddItemRepository {
             ADD_ITEM_PATH)
         val json: String = StringUtils.getString(inputStream)
         return GsonBuilder().registerTypeAdapter(Group::class.java, GroupDeserializer()).create().fromJson(json, object : TypeToken<AddItemData>() {}.type)
+    }
+
+    override fun saveItemData(itemData: BaseData) {
+        client.saveItemData(itemData)
     }
 }

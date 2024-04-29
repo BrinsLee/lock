@@ -1,6 +1,7 @@
 package com.lock.locksmith.fragments.base
 
 import android.content.Context
+import android.content.DialogInterface.OnDismissListener
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.LayoutRes
@@ -11,8 +12,10 @@ import com.lock.locksmith.activities.MainActivity
 import com.lock.locksmith.activities.base.AbsBaseActivity
 import com.lock.locksmith.fragments.home.HomeFragment
 import com.lock.locksmith.fragments.home.HomeFragment.Companion
+import com.lock.locksmith.interfaces.ILoading
 import com.lock.locksmith.viewmodel.AddItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.abs
 
 /**
  * @author lipeilin
@@ -20,9 +23,9 @@ import dagger.hilt.android.AndroidEntryPoint
  * @desc
  */
 @AndroidEntryPoint
-open class AbsBaseFragment(@LayoutRes layout: Int): Fragment(layout) {
+open class AbsBaseFragment(@LayoutRes layout: Int): Fragment(layout), ILoading {
 
-    var absBaseActivity: MainActivity? = null
+    var absBaseActivity: AbsBaseActivity? = null
         private set
 
 
@@ -43,7 +46,7 @@ open class AbsBaseFragment(@LayoutRes layout: Int): Fragment(layout) {
         Log.d("AbsFragment", "onAttach fragment: ${this::class.java.simpleName} hashcode: ${this}")
 
         try {
-            absBaseActivity = context as MainActivity?
+            absBaseActivity = context as AbsBaseActivity?
         } catch (e: ClassCastException) {
             throw RuntimeException(context.javaClass.simpleName + " must be an instance of " + MainActivity::class.java.simpleName)
         }
@@ -71,4 +74,15 @@ open class AbsBaseFragment(@LayoutRes layout: Int): Fragment(layout) {
         absBaseActivity = null
     }
 
+    override fun showLoadingDialog() {
+        absBaseActivity?.showLoadingDialog()
+    }
+
+    override fun showLoadingDialog(listener: OnDismissListener) {
+        absBaseActivity?.showLoadingDialog(listener)
+    }
+
+    override fun dismissLoadingDialog() {
+        absBaseActivity?.dismissLoadingDialog()
+    }
 }

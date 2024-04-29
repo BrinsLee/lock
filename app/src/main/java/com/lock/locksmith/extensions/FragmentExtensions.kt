@@ -5,12 +5,16 @@ import android.content.res.Configuration
 import android.os.PowerManager
 import androidx.annotation.DimenRes
 import androidx.annotation.IdRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.lock.locksmith.BuildConfig
 import com.lock.locksmith.R
 import com.lock.locksmith.utils.PreferenceUtil
 
@@ -59,4 +63,47 @@ fun Fragment.dp2px(dp: Float): Int {
 fun Fragment.materialDialog(): MaterialDialog {
     return MaterialDialog(requireContext())
         .cornerRadius(res = R.dimen.m3_dialog_corner_size)
+}
+
+fun Fragment.materialDialog(title: Int): MaterialAlertDialogBuilder {
+    return if (BuildConfig.DEBUG) {
+        MaterialAlertDialogBuilder(
+            requireContext(),
+            R.style.MaterialAlertDialogTheme
+        )
+    } else {
+        MaterialAlertDialogBuilder(
+            requireContext()
+        )
+    }.setTitle(title)
+}
+
+
+fun Fragment.materialDialog(title: String): MaterialAlertDialogBuilder {
+    return if (BuildConfig.DEBUG) {
+        MaterialAlertDialogBuilder(
+            requireContext(),
+            R.style.MaterialAlertDialogTheme
+        )
+    } else {
+        MaterialAlertDialogBuilder(
+            requireContext()
+        )
+    }.setTitle(title)
+}
+
+
+fun DialogFragment?.isShowing(): Boolean {
+    return this != null && dialog != null && dialog!!.isShowing
+}
+
+
+
+fun AlertDialog.colorButtons(): AlertDialog {
+    setOnShowListener {
+        getButton(AlertDialog.BUTTON_POSITIVE).accentTextColor()
+        getButton(AlertDialog.BUTTON_NEGATIVE).accentTextColor()
+        getButton(AlertDialog.BUTTON_NEUTRAL).accentTextColor()
+    }
+    return this
 }

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -28,5 +27,17 @@
         app:itemHorizontalTranslationEnabled="false"
         app:menu="@menu/bottom_navigation_main"
         tools:viewBindingType="com.google.android.material.navigation.NavigationBarView"/>
+
+<!--    <com.lock.locksmith.views.BlurMaskLayout
+        android:id="@+id/blur"
+        app:blurViewRadius="10"
+        android:elevation="5dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.lock.locksmith.views.BlurMaskLayout>-->
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,4 +91,42 @@
         <item name="cornerSizeBottomLeft">@dimen/edittext_radius</item>
         <item name="cornerSizeBottomRight">@dimen/edittext_radius</item>
     </style>
+
+    <style name="NoUnderlineTextInput.Top" parent="NoUnderlineTextInput">
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox.Top
+        </item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox.Top" parent="">
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+
+    <style name="NoUnderlineTextInput.Middle" parent="NoUnderlineTextInput">
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox.Middle
+        </item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox.Middle" parent="">
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="NoUnderlineTextInput.Bottom" parent="NoUnderlineTextInput">
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox.Bottom
+        </item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox.Bottom" parent="">
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+    </style>
+
+
 </resources>

@@ -96,7 +96,9 @@ protobuf {
 
 
 dependencies {
-
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    // 添加 libs 文件夹下的所有 .aar 文件
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -106,11 +108,16 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(project(":appthemehelper"))
     implementation (project(":magicindicator"))
+    implementation (project(":result"))
+    // implementation (files("libs/blurlib-release.aar"))
     kapt(libs.hilt.android.compiler)
 
     implementation(libs.recyclerview)
 
     implementation (libs.material.v1100)
+
+    implementation (libs.androidx.biometric)
+
 
     implementation (libs.androidx.navigation.runtime.ktx)
     implementation (libs.androidx.navigation.fragment.ktx)
@@ -122,6 +129,9 @@ dependencies {
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.livedata.ktx)
     implementation (libs.androidx.lifecycle.common.java8)
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation (libs.androidx.lifecycle.extensions)
+
 
     implementation (libs.insetter)
     implementation (libs.material.cab)
@@ -135,6 +145,11 @@ dependencies {
 
     implementation (libs.protobuf.java)
     // implementation (libs.protoc)
+
+    implementation (libs.customactivityoncrash)
+    implementation (libs.bcprov.jdk15on)
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

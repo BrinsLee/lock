@@ -1,6 +1,7 @@
 package com.lock.locksmith.repository.additem
 
 import com.lock.locksmith.bean.AddItemData
+import com.lock.locksmith.model.base.BaseData
 
 /**
  * @author lipeilin
@@ -10,4 +11,6 @@ import com.lock.locksmith.bean.AddItemData
 interface IAddItemRepository {
 
     fun getItemData(): AddItemData
+
+    fun saveItemData(itemData: BaseData)
 }

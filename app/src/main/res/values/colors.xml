@@ -17,4 +17,20 @@
     <color name="bottomSheetColor">#FFFFFF</color>
     <color name="widget_md3_bg_color">@color/lighterColorSurface</color>
 
+    <color name="lightLight90">#e6ffffff</color>
+    <color name="lightLight60">#99ffffff</color>
+    <color name="lightLight40">#66ffffff</color>
+    <color name="lightLight30">#4dffffff</color>
+    <color name="lightLight20">#33ffffff</color>
+    <color name="lightLight10">#1affffff</color>
+    <color name="lightLight5">#0dffffff</color>
+    <color name="lightLight0">#00ffffff</color>
+    <color name="darkDark90">#e6000000</color>
+    <color name="darkDark60">#99000000</color>
+    <color name="darkDark40">#66000000</color>
+    <color name="darkDark30">#4d000000</color>
+    <color name="darkDark20">#33000000</color>
+    <color name="darkDark10">#1a000000</color>
+    <color name="darkDark5">#0d000000</color>
+    <color name="darkDark3">#08000000</color>
 </resources>

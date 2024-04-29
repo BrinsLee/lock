@@ -19,6 +19,7 @@ import com.lock.locksmith.R
 import com.lock.locksmith.bean.Group
 import com.lock.locksmith.databinding.ListItemGroupTypeBinding
 import com.lock.locksmith.extensions.dp
+import com.lock.locksmith.extensions.getTintedDrawable
 
 /**
  * 每一组的Adapter
@@ -40,12 +41,13 @@ class GroupAdapter : BaseQuickAdapter<Group, GroupAdapter.VH>(){
 
         holder.binding.tvTitle.text = item.title_res
 
-        val drawable: Drawable? = ContextCompat.getDrawable(context, item.icon_res)
+        /*val drawable: Drawable? = ContextCompat.getDrawable(context, item.icon_res)
         val colorFilter: ColorFilter = PorterDuffColorFilter(
             ThemeStore.accentColor(context),
             SRC_IN
         )
-        drawable?.mutate()?.setColorFilter(colorFilter)
+        drawable?.mutate()?.setColorFilter(colorFilter)*/
+        val drawable = context.getTintedDrawable(item.icon_res, ThemeStore.accentColor(context))
 
         holder.binding.icon.setImageDrawable(drawable)
 

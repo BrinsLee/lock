@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivFinger"
+        android:src="@drawable/ic_finger"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:text="@string/unlock_with_biometrics"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</FrameLayout>

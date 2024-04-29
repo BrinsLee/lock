@@ -33,4 +33,18 @@
     <string name="bank_account">Bank account</string>
     <string name="save">save</string>
     <string name="itemName">item name</string>
+    <string name="userName">Username</string>
+    <string name="password">Password</string>
+    <string name="url">URL</string>
+    <string name="note">note</string>
+    <string name="customactivityoncrash_error_activity_error_details_share" translatable="false">Share Crash Report</string>
+    <string name="loading">Loading</string>
+    <string name="ok">OK</string>
+    <string name="missing_info">Missing Info</string>
+    <string name="please_add_the_item_name">Please add the item name</string>
+    <string name="please_add_the_password">Please add the password</string>
+    <string name="unlock_with_biometrics">Unlock with biometrics</string>
+    <string name="unlock_with_fingerprint">Scan your fingerprints</string>
+    <string name="unlock_with_pin">Use PIN code</string>
+    <string name="cancel">cancel</string>
 </resources>
