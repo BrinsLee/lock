@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.PowerManager
 import androidx.annotation.DimenRes
 import androidx.annotation.IdRes
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
@@ -76,6 +77,14 @@ fun Fragment.materialDialog(title: Int): MaterialAlertDialogBuilder {
             requireContext()
         )
     }.setTitle(title)
+}
+
+
+fun Fragment.materialDialog(title: Int, @StyleRes style: Int): MaterialAlertDialogBuilder {
+    return MaterialAlertDialogBuilder(
+        requireContext(),
+        style
+    ).setTitle(title)
 }
 
 

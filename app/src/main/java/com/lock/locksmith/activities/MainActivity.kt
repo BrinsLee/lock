@@ -2,8 +2,7 @@ package com.lock.locksmith.activities
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -15,15 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.contains
 import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle.Event.ON_START
-import androidx.lifecycle.Lifecycle.Event.ON_STOP
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.lock.locksmith.LockSmithApplication
 import com.lock.locksmith.R
 import com.lock.locksmith.activities.base.AbsBaseActivity
 import com.lock.locksmith.databinding.ActivityMainBinding
@@ -34,13 +27,18 @@ import com.lock.locksmith.extensions.hide
 import com.lock.locksmith.extensions.show
 import com.lock.locksmith.extensions.showToast
 import com.lock.locksmith.viewmodel.AddItemViewModel
+import com.lock.locksmith.viewmodel.PassportViewModel
 import com.lock.locksmith.views.BlurMaskLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class MainActivity : AbsBaseActivity() {
+
+    private val navController by lazy { findNavController(R.id.nav_host_fragment) }
+
 
     val navigationView get() = binding.navigationView
 
@@ -94,6 +92,9 @@ class MainActivity : AbsBaseActivity() {
     private val _addItemViewModel: AddItemViewModel by viewModels()
     fun getAddItemViewModel() = _addItemViewModel
 
+    private val _passportViewModel: PassportViewModel by viewModels()
+    fun getPassportViewModel() = _passportViewModel
+
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -127,19 +128,20 @@ class MainActivity : AbsBaseActivity() {
             promptInfo = this@MainActivity.promptInfo
         }
         setupNavigationController()
+
     }
 
     override fun onStart() {
         super.onStart()
         Log.d("MAINACTIVITY", "onStart")
-        if (!binding.main.contains(blurMaskLayout)) {
+        /*if (!binding.main.contains(blurMaskLayout)) {
             binding.main.addView(blurMaskLayout)
-        }
+        }*/
         // binding.blur.visibility = View.VISIBLE
     }
 
     private fun setupNavigationController() {
-        val navController = findNavController(R.id.nav_host_fragment)
+
         val navInflater = navController.navInflater
         val navGraph = navInflater.inflate(R.navigation.main_graph)
 
@@ -162,11 +164,22 @@ class MainActivity : AbsBaseActivity() {
                 R.id.action_home, R.id.action_setting -> {
                     setBottomNavVisibility(visible = true, animate = true)
                 }
-
+                R.id.action_init -> {
+                    setBottomNavVisibility(visible = false, animate = false)
+                }
                 else -> {
                     setBottomNavVisibility(visible = false, animate = true)
                 }
             }
+        }
+
+        getPassportViewModel().loadPassport().onSuccess {
+
+        }.onError {
+            navController.navigate(
+                R.id.action_init,
+                null
+            )
         }
     }
 
@@ -174,11 +187,9 @@ class MainActivity : AbsBaseActivity() {
         visible: Boolean,
         animate: Boolean = false,
     ) {
-        if (!ViewCompat.isLaidOut(navigationView)) {
-            return
-        }
+        val mAnimate = (animate && navigationView.isLaidOut)
+
         if (visible xor navigationView.isVisible) {
-            val mAnimate = animate
             if (mAnimate) {
                 if (visible) {
                     binding.navigationView.bringToFront()
@@ -193,5 +204,35 @@ class MainActivity : AbsBaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        val currentDestination = navController?.currentDestination?.id
+        when (currentDestination) {
+            R.id.action_home ,
+            R.id.action_setting,
+            R.id.action_init -> {
+                exitApp()
+            }
+            else -> {
+                super.onBackPressed()
+            }
+        }
+    }
+
+    private var mFirstPressTime: Long = 0
+    fun exitApp() {
+        if ((System.currentTimeMillis() - mFirstPressTime) > 2000) {
+            mFirstPressTime = System.currentTimeMillis()
+            showToast(R.string.base_exit_main_tip)
+        } else {
+            finish()
+            exitProcess(0)
+        }
+    }
+
+    fun exitAppNow() {
+        finish()
+        exitProcess(0)
     }
 }

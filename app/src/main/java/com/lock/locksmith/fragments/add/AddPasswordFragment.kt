@@ -5,6 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import com.lock.locksmith.R
 import com.lock.locksmith.databinding.FragmentAddPasswordBinding
+import com.lock.locksmith.extensions.hideKeyboard
 import com.lock.locksmith.fragments.base.BaseAddItemFragment
 import com.lock.locksmith.fragments.dialog.ErrorInfoDialogFragment
 import com.lock.locksmith.model.password.PasswordData
@@ -51,6 +52,7 @@ class AddPasswordFragment : BaseAddItemFragment(R.layout.fragment_add_password) 
 
 
     private fun checkAndSaveInfo() {
+        requireContext().hideKeyboard(view)
         if (isValidParams()) {
             saveItemInfo(PasswordData(binding.itemNameTextContainer.editText?.text.toString(),
                 binding.userNameTextContainer.editText?.text.toString(),

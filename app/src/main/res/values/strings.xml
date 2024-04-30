@@ -47,4 +47,12 @@
     <string name="unlock_with_fingerprint">Scan your fingerprints</string>
     <string name="unlock_with_pin">Use PIN code</string>
     <string name="cancel">cancel</string>
+    <string name="base_exit_main_tip">Press the return key again to exit</string>
+    <string name="initializing_key_information">Please wait while initializing key information</string>
+    <string name="init_passport_error">Init passport error</string>
+    <string name="init_passport_error_detail">The device hardware security module is unavailable</string>
+    <string name="init_passport_success">Passport init success</string>
+    <string name="saved">Saved</string>
+    <string name="empty_no_data">Empty, Click to add</string>
+
 </resources>

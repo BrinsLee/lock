@@ -3,6 +3,8 @@ package com.lock.locksmith.di
 import com.lock.locksmith.repository.PassportClient
 import com.lock.locksmith.repository.additem.AddItemRepository
 import com.lock.locksmith.repository.additem.IAddItemRepository
+import com.lock.locksmith.repository.passport.IPassportRepository
+import com.lock.locksmith.repository.passport.PassportRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -22,5 +24,9 @@ interface DataModule {
 
     @Binds
     fun provideItemDataRepository(dataRepositoryImpl: AddItemRepository): IAddItemRepository
+
+
+    @Binds
+    fun providePassportRepository(dataRepositoryImpl: PassportRepository): IPassportRepository
 
 }

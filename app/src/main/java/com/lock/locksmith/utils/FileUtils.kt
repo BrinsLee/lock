@@ -13,7 +13,9 @@ import com.lock.result.Result
 import com.lock.result.Result.Failure
 import com.lock.result.Result.Success
 import com.lock.result.flatMap
+import java.io.BufferedOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 object FileUtils {
@@ -24,6 +26,33 @@ object FileUtils {
                     input.copyTo(output)
                 }
             }
+    }
+
+    fun createFile(
+        context: Context,
+        directoryName: String,
+        fileName: String,
+        byteArray: ByteArray,
+        fileType: String
+    ): File {
+        val root = createDirectory(context, directoryName)
+        val filePath = "$root/$fileName$fileType"
+        val file = File(filePath)
+
+        // create file if not exist
+        if (!file.exists()) {
+            try {
+                // create a new file and write text in it.
+                file.createNewFile()
+                val fileOutputStream = FileOutputStream(file)
+                fileOutputStream.write(byteArray)
+                fileOutputStream.close()
+                Log.d(FileUtils::class.java.name, "File has been created and saved")
+            } catch (e: IOException) {
+                Log.d(FileUtils::class.java.name, e.message.toString())
+            }
+        }
+        return file
     }
 
     /**
@@ -109,6 +138,30 @@ private const val APP_CACHE_DIR_NAME = "app_cache"
 private const val APP_DATA_DIR_NAME = "app_data"
 
 
+fun writeFileInAppDataDir(context: Context, fileName: String, byteArray: ByteArray): Result<File> {
+    return getOrCreateAppDataDir(context)
+        .flatMap { appDataDir ->
+            try {
+                val file = File(appDataDir, fileName)
+                file.createNewFile()
+                val fileOutputStream = FileOutputStream(file)
+                fileOutputStream.use {
+                    BufferedOutputStream(it).use { bufferedOutputStream ->
+                        bufferedOutputStream.write(byteArray)
+                        bufferedOutputStream.flush()
+                    }
+                }
+                Success(file)
+            } catch (e: Exception) {
+                Failure(
+                    Error.ThrowableError(
+                        message = "Could not write file to app data directory",
+                        cause = e,
+                    ),
+                )
+            }
+        }
+}
 
 
 private fun getFileProviderAuthority(context: Context): String {

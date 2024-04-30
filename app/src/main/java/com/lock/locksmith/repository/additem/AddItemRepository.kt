@@ -10,6 +10,8 @@ import com.lock.locksmith.model.base.BaseData
 import com.lock.locksmith.repository.PassportClient
 import com.lock.locksmith.utils.StringUtils
 import com.lock.locksmith.utils.gson.GroupDeserializer
+import com.lock.result.Result
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -20,14 +22,14 @@ import javax.inject.Inject
 class AddItemRepository @Inject constructor(private val client: PassportClient): IAddItemRepository {
 
 
-    override fun getItemData(): AddItemData {
+    override fun getItemData(): com.lock.result.Result<AddItemData> {
         val inputStream = LockSmithApplication.getContext().applicationContext.assets.open(
             ADD_ITEM_PATH)
         val json: String = StringUtils.getString(inputStream)
-        return GsonBuilder().registerTypeAdapter(Group::class.java, GroupDeserializer()).create().fromJson(json, object : TypeToken<AddItemData>() {}.type)
+        return Result.Success(GsonBuilder().registerTypeAdapter(Group::class.java, GroupDeserializer()).create().fromJson(json, object : TypeToken<AddItemData>() {}.type))
     }
 
-    override fun saveItemData(itemData: BaseData) {
-        client.saveItemData(itemData)
+    override fun saveItemData(itemData: BaseData): Result<File> {
+        return client.saveItemData(itemData)
     }
 }

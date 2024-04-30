@@ -31,6 +31,13 @@ class ErrorInfoDialogFragment : DialogFragment() {
 
     private var message: String? = null
 
+    interface DialogDismissListener {
+        fun onDialogDismissed()
+    }
+
+    var dialogDismissListener: DialogDismissListener? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = arguments?.getString(EXTRA_TITLE)
@@ -43,4 +50,9 @@ class ErrorInfoDialogFragment : DialogFragment() {
             setMessage(message ?: "")
             setPositiveButton(R.string.ok) { dialog, which -> dismiss() }
         }.create()
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dialogDismissListener?.onDialogDismissed()
+    }
 }

@@ -7,6 +7,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyInfo
 import android.security.keystore.KeyProperties
 import android.util.Log
+import com.brins.locksmith.AccountItemOuterClass
 import com.lock.locksmith.DEVICEID_DATA_KEY
 import com.lock.locksmith.DEVICEID_IV_KEY
 import com.lock.locksmith.DEVICE_PRIVATE_DATA_KEY
@@ -21,16 +22,21 @@ import com.lock.locksmith.PASSPORT_PRIVATE_DATA_KEY
 import com.lock.locksmith.PASSPORT_PRIVATE_IV_KEY
 import com.lock.locksmith.PASSPORT_PUBLIC_DATA_KEY
 import com.lock.locksmith.PASSPORT_PUBLIC_IV_KEY
+import com.lock.locksmith.extensions.toBuilder
 import com.lock.locksmith.model.base.AesEncryptedData
 import com.lock.locksmith.model.base.BaseData
 import com.lock.locksmith.scope.ClientScope
 import com.lock.locksmith.utils.SpUtils
+import com.lock.locksmith.utils.encrypt.aes256Encrypt
 import com.lock.locksmith.utils.encrypt.generateKeyPair
 import com.lock.locksmith.utils.encrypt.newAesCipher
 import com.lock.locksmith.utils.encrypt.newAesInKeystore
 import com.lock.locksmith.utils.encrypt.newAesKey
 import com.lock.locksmith.utils.encrypt.newUUID
+import com.lock.locksmith.utils.writeFileInAppDataDir
+import com.lock.result.Result
 import org.bouncycastle.util.encoders.Hex
+import java.io.File
 import java.io.IOException
 import java.lang.Exception
 import java.security.InvalidAlgorithmParameterException
@@ -56,7 +62,8 @@ import javax.crypto.spec.SecretKeySpec
  * @date 2024/4/28
  * @desc
  */
-class PassportClient constructor(val coroutineScope: ClientScope) {
+class PassportClient(val context: Context, val coroutineScope: ClientScope) {
+
 
     /***主密钥*/
     private var _masterSecretKey: SecretKey? = null
@@ -69,8 +76,18 @@ class PassportClient constructor(val coroutineScope: ClientScope) {
         get() = _deviceSecretKey!!
 
 
-    fun saveItemData(itemData: BaseData) {
+    fun saveItemData(itemData: BaseData): Result<File> {
         val fileName = Hex.toHexString(itemData.getMetaAccountId())
+        val encryptedMeta = encryptMeta(itemData.metaData)
+        val encryptedGeneral = encryptGeneral(itemData.metaData!!, itemData.generalItems)
+        assert(encryptedMeta != null)
+        assert(encryptedGeneral != null)
+        val builder = AccountItemOuterClass.AccountItem.newBuilder()
+            .setVersion(AccountItemOuterClass.AccountItemVersion.accountItemV20240426)
+            .setMeta(encryptedMeta!!.toBuilder())
+            .setGeneral(encryptedGeneral!!.toBuilder())
+            .setSecret(itemData.secretedData!!.toBuilder())
+        return writeFileInAppDataDir(context, fileName, builder.build().toByteArray())
     }
 
     /**
@@ -149,7 +166,7 @@ class PassportClient constructor(val coroutineScope: ClientScope) {
     /**
      * init passport
      */
-    private fun initPassport(): Boolean {
+    fun initPassport(): Boolean {
         return try {
             userID = decryptFromPreference(
                 SpUtils.obtain(PassportPreferenceName).getString(USERID_IV_KEY, "")
@@ -269,7 +286,7 @@ class PassportClient constructor(val coroutineScope: ClientScope) {
     /**
      * load device secret key
      */
-    private fun loadDeviceSecretKey(): Boolean {
+    fun loadDeviceSecretKey(): Boolean {
         try {
             val keyStore = KeyStore.getInstance(KeyStoreProvider)
             keyStore.load(null)
@@ -305,6 +322,9 @@ class PassportClient constructor(val coroutineScope: ClientScope) {
 
         private var instance: PassportClient? = null
 
+        val TAG = "PassportClient"
+
+
         @JvmStatic
         public fun instance(): PassportClient {
             return instance
@@ -320,11 +340,50 @@ class PassportClient constructor(val coroutineScope: ClientScope) {
         fun build(): PassportClient {
             val clientScope = ClientScope()
 
-            return PassportClient(clientScope).apply {
+            return PassportClient(context, clientScope).apply {
                 instance = this
             }
         }
     }
+
+    /**
+     * 加密元数据
+     */
+    private fun encryptMeta(meta: AccountItemOuterClass.AccountItemMeta?): AesEncryptedData? {
+        return try {
+            encryptData(meta!!.toByteArray())
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to encrypt meta", e)
+            null
+        }
+
+    }
+
+    /**
+     * 加密通用数据
+     */
+    private fun encryptGeneral(
+        meta: AccountItemOuterClass.AccountItemMeta,
+        generalItems: MutableMap<String, String>
+    ): AesEncryptedData? {
+        val builder = AccountItemOuterClass.AccountGeneralData.newBuilder()
+        for (entry in generalItems.entries) {
+            builder.addItems(
+                AccountItemOuterClass.GeneralItem.newBuilder()
+                    .setKey(entry.key)
+                    .setValue(entry.value)
+            )
+        }
+        val plainText = builder.build().toByteArray()
+        return try {
+            aes256Encrypt(meta.accountKey.toByteArray(), plainText)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to encrypt general items", e)
+            null
+        }
+
+    }
+
 
 
     @Throws(

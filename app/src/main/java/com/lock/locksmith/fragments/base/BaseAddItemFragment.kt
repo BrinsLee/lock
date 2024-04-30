@@ -11,10 +11,15 @@ import com.apptheme.helper.ThemeStore
 import com.lock.locksmith.R
 import com.lock.locksmith.activities.MainActivity
 import com.lock.locksmith.databinding.FragmentAddItemBinding
+import com.lock.locksmith.extensions.showToast
 import com.lock.locksmith.model.base.BaseData
 import com.lock.locksmith.model.password.PasswordData
 import com.lock.locksmith.viewmodel.AddItemViewModel
 import com.lock.locksmith.viewmodel.AddItemViewModel.AddItemEvent.AddPasswordEvent
+import com.lock.locksmith.viewmodel.BaseViewModel
+import com.lock.locksmith.viewmodel.BaseViewModel.State.Failure
+import com.lock.locksmith.viewmodel.BaseViewModel.State.Loading
+import com.lock.locksmith.viewmodel.BaseViewModel.State.Result
 import kotlin.math.abs
 
 /**
@@ -62,7 +67,7 @@ abstract class BaseAddItemFragment(@LayoutRes var childLayout: Int) :
     protected open fun saveItemInfo(itemData: BaseData) {
         when(itemData) {
             is PasswordData -> {
-                addItemViewModel.addItem(AddPasswordEvent(itemData))
+                addItemViewModel.handleEvent(AddPasswordEvent(itemData))
             }
             else -> {
                 //TODO
@@ -87,11 +92,17 @@ abstract class BaseAddItemFragment(@LayoutRes var childLayout: Int) :
     private fun setupObserver() {
         addItemViewModel.state.observe(viewLifecycleOwner) {
             when (it) {
-                is AddItemViewModel.State.Loading -> {
+                is Loading -> {
                     showLoadingDialog()
                 }
-                is AddItemViewModel.State.Result -> {
+                is Result -> {
                     dismissLoadingDialog()
+                    requireContext().showToast(getString(R.string.saved))
+                }
+
+                is Failure -> {
+                    dismissLoadingDialog()
+                    requireContext().showToast(it.errorMessage)
                 }
             }
         }

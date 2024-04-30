@@ -9,10 +9,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
+import com.chad.library.adapter4.BaseDifferAdapter
 
 import com.chad.library.adapter4.BaseQuickAdapter
 import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.lock.locksmith.R
+import com.lock.locksmith.model.base.BaseData
 
 /**
  * 文 件 名: AnimationAdapter
@@ -22,14 +24,7 @@ import com.lock.locksmith.R
  * 修改时间：
  * 修改备注：
  */
-
-fun generateRandomString(length: Int): String {
-    val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
-    return (1..length)
-        .map { allowedChars.random() }
-        .joinToString("")
-}
-class AnimationAdapter : BaseQuickAdapter<String, QuickViewHolder>() {
+class AnimationAdapter : BaseDifferAdapter<BaseData, QuickViewHolder>(DiffEntityCallback()) {
 
     override fun onCreateViewHolder(
         context: Context,
@@ -39,13 +34,13 @@ class AnimationAdapter : BaseQuickAdapter<String, QuickViewHolder>() {
         return QuickViewHolder(R.layout.list_item_vault, parent)
     }
 
-    override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: String?) {
+    override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: BaseData?) {
 
-        holder.setText(R.id.tv_title, "Hoteis in Rio de Janeiro")
-        val msg =
-            "\"He was one of Australia's most of distinguished artistes, renowned for his $item\""
+        item?.let {
+            holder.setText(R.id.title, it.itemName)
+            holder.setText(R.id.summary, it.accountName)
 
-
+        }
 
 /*        holder.getView<TextView>(R.id.tweetText).text = buildSpannedString {
             append(msg)

@@ -4,6 +4,7 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import com.lock.locksmith.R
 import com.lock.locksmith.adapter.AnimationAdapter
 import com.lock.locksmith.adapter.generateRandomString
@@ -26,11 +27,22 @@ class VaultFragment: AbsBaseFragment(R.layout.fragment_vault) {
 
     private var tabBean: TabBean? = null
 
-    private val mAnimationAdapter: AnimationAdapter = AnimationAdapter().apply {
-        // 打开 Adapter 的动画
-        animationEnable = true
-        // 是否是首次显示时候加载动画
-        isAnimationFirstOnly = false
+    private val emptyDataView: View
+        get() {
+            val notDataView = layoutInflater.inflate(R.layout.empty_view, FrameLayout(requireContext()), false)
+            return notDataView
+        }
+
+    private val mAnimationAdapter: AnimationAdapter by lazy {
+        AnimationAdapter().apply {
+            // 打开 Adapter 的动画
+            animationEnable = true
+            // 是否是首次显示时候加载动画
+            isAnimationFirstOnly = true
+            isStateViewEnable = true
+            stateView = emptyDataView
+
+        }
     }
 
     companion object {
@@ -51,14 +63,10 @@ class VaultFragment: AbsBaseFragment(R.layout.fragment_vault) {
         } else {
             tabBean = arguments?.getParcelable("tabBean")
         }
-        if (tabBean?.id == "1") {
-            mAnimationAdapter.submitList(List(10) { generateRandomString(10) })
+        setupAdapter()
+    }
 
-        } else if (tabBean?.id == "2") {
-            mAnimationAdapter.submitList(emptyList())
-        } else {
-            mAnimationAdapter.submitList(List(50) { generateRandomString(10) })
-        }
+    private fun setupAdapter() {
 
         binding.apply {
             recyclerView.adapter = mAnimationAdapter

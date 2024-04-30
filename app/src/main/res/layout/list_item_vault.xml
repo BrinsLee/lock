@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/common_navigator_height_50">
+    android:layout_height="@dimen/navigator_margin_top_min">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:text="ssssssss"
-        android:textSize="25sp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextViewSubtitle1"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_front_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:maxLines="@string/grid_size_1"
+        tools:text="@tools:sample/lorem/random" />
+
+    <com.lock.locksmith.views.BaselineGridTextView
+        android:id="@+id/summary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextViewNormal"
+        android:textColor="?android:attr/textColorSecondary"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_front_margin"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:maxLines="2"
+        tools:text="@tools:sample/lorem/random" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_front_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/list_pref_guideline_begin" />
+</androidx.constraintlayout.widget.ConstraintLayout>

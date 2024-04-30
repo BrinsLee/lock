@@ -1,17 +1,15 @@
 package com.lock.locksmith.model.base
 
-import android.os.Parcelable
 import android.util.Log
 import com.brins.locksmith.AccountItemOuterClass
 import com.brins.locksmith.AccountItemOuterClass.AccountItemMeta
 import com.google.protobuf.ByteString
 import com.lock.locksmith.utils.encrypt.aes256Decrypt
 import com.lock.locksmith.utils.encrypt.aes256Encrypt
-import com.lock.locksmith.utils.encrypt.newAesKey
-import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 import java.nio.charset.StandardCharsets
-import java.util.HashMap
+import java.util.Objects
+import java.util.Objects.hash
 
 /**
  * @author lipeilin
@@ -38,6 +36,7 @@ abstract class BaseData(
      * 加密数据
      */
     var secretedData: AesEncryptedData? = null
+
     /**
      * 一般通用数据
      * 以键值对存储
@@ -63,17 +62,15 @@ abstract class BaseData(
         }
     }
 
+    /*    fun encryptMeta(meta: AccountItemOuterClass.AccountItemMeta?): AesEncryptedData? {
+            return try {
+                repository.encryptData(meta!!.toByteArray())
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to encrypt meta", e)
+                null
+            }
 
-/*    fun encryptMeta(meta: AccountItemOuterClass.AccountItemMeta?): AesEncryptedData? {
-        return try {
-            repository.encryptData(meta!!.toByteArray())
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to encrypt meta", e)
-            null
-        }
-
-    }*/
-
+        }*/
 
     fun encryptData(plainText: String) {
         val secretItems = decryptSecret()
@@ -81,9 +78,7 @@ abstract class BaseData(
             it[PASSWORD_KEY] = plainText.toByteArray(StandardCharsets.UTF_8)
             secretedData = encryptSecret(it)
         }
-
     }
-
 
     private fun encryptSecret(secretItems: Map<String, ByteArray>): AesEncryptedData? {
         val builder = AccountItemOuterClass.AccountSecretData.newBuilder()
@@ -102,9 +97,7 @@ abstract class BaseData(
             Log.e(TAG, "Encrypt secret data failed", e)
             null
         }
-
     }
-
 
     private fun decryptSecret(): MutableMap<String, ByteArray>? {
         val secrets = HashMap<String, ByteArray>()
@@ -127,7 +120,24 @@ abstract class BaseData(
         return secrets
     }
 
-
     fun getMetaAccountId(): ByteArray = metaData!!.accountID.toByteArray()
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (!(other is BaseData)) return false
+        val that: BaseData = other
+        return that.metaData?.accountID == this.metaData?.accountID && that.metaData?.accountKey == this.metaData?.accountKey
+    }
+
+    override fun hashCode(): Int {
+        return hash(this.metaData?.accountID, this.metaData?.accountKey)
+    }
+
+    fun areContentsTheSame(newItem: BaseData): Boolean {
+        return this.itemName == newItem.itemName &&
+            this.accountName == newItem.accountName &&
+            this.password == newItem.password &&
+            this.note == newItem.note &&
+            this.generalItems == newItem.generalItems
+    }
 }

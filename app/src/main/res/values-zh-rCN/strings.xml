@@ -38,4 +38,11 @@
     <string name="unlock_with_fingerprint">扫描您的指纹</string>
     <string name="unlock_with_pin">使用PIN码</string>
     <string name="cancel">取消</string>
+    <string name="base_exit_main_tip">再按一次返回键退出</string>
+    <string name="initializing_key_information">正在初始化密钥信息，请稍等</string>
+    <string name="init_passport_error">初始化密钥信息失败</string>
+    <string name="init_passport_error_detail">设备硬件安全模块不可用</string>
+    <string name="init_passport_success">密钥信息初始化成功</string>
+    <string name="saved">已保存</string>
+    <string name="empty_no_data">暂无数据，点击添加</string>
 </resources>

@@ -2,6 +2,8 @@ package com.lock.locksmith.repository.additem
 
 import com.lock.locksmith.bean.AddItemData
 import com.lock.locksmith.model.base.BaseData
+import com.lock.result.Result
+import java.io.File
 
 /**
  * @author lipeilin
@@ -10,7 +12,7 @@ import com.lock.locksmith.model.base.BaseData
  */
 interface IAddItemRepository {
 
-    fun getItemData(): AddItemData
+    fun getItemData(): Result<AddItemData>
 
-    fun saveItemData(itemData: BaseData)
+    fun saveItemData(itemData: BaseData): Result<File>
 }
