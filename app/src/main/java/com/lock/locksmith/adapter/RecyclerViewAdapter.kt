@@ -1,19 +1,16 @@
 package com.lock.locksmith.adapter
 
 import android.content.Context
-import android.text.TextPaint
-import android.text.style.ClickableSpan
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.text.buildSpannedString
-import androidx.core.text.inSpans
+import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter4.BaseDifferAdapter
-
 import com.chad.library.adapter4.BaseQuickAdapter
+
 import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.lock.locksmith.R
+import com.lock.locksmith.databinding.ListItemVaultBinding
+import com.lock.locksmith.databinding.ListItemViewBinding
 import com.lock.locksmith.model.base.BaseData
 
 /**
@@ -24,21 +21,28 @@ import com.lock.locksmith.model.base.BaseData
  * 修改时间：
  * 修改备注：
  */
-class AnimationAdapter : BaseDifferAdapter<BaseData, QuickViewHolder>(DiffEntityCallback()) {
+class RecyclerViewAdapter : BaseQuickAdapter<BaseData, RecyclerViewAdapter.VH>() {
+
+    class VH(
+        parent: ViewGroup,
+        val viewBinding: ListItemVaultBinding = ListItemVaultBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+    ) : RecyclerView.ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(
         context: Context,
         parent: ViewGroup,
         viewType: Int
-    ): QuickViewHolder {
-        return QuickViewHolder(R.layout.list_item_vault, parent)
+    ): VH {
+        return VH(parent)
     }
 
-    override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: BaseData?) {
+    override fun onBindViewHolder(holder: VH, position: Int, item: BaseData?) {
 
         item?.let {
-            holder.setText(R.id.title, it.itemName)
-            holder.setText(R.id.summary, it.accountName)
+            holder.viewBinding.title.text = it.itemName
+            holder.viewBinding.summary.text = it.accountName
 
         }
 

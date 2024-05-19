@@ -164,6 +164,8 @@ fun writeFileInAppDataDir(context: Context, fileName: String, byteArray: ByteArr
 }
 
 
+
+
 private fun getFileProviderAuthority(context: Context): String {
     val compName = ComponentName(context, LockFileProvider::class.java.name)
     val providerInfo = context.packageManager.getProviderInfo(compName, 0)
@@ -177,7 +179,7 @@ public fun getUriForFile(context: Context, file: File): Uri =
 /**
  * Create the app DATA directory if not exist
  */
-private fun getOrCreateAppDataDir(
+fun getOrCreateAppDataDir(
     context: Context,
 ): Result<File> {
     return try {

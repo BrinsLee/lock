@@ -4,7 +4,6 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.lock.locksmith.R
-import com.lock.locksmith.bean.AddItemData
 import com.lock.locksmith.bean.Group
 import com.lock.locksmith.utils.StringUtils
 import java.lang.reflect.Type

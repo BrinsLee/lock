@@ -112,6 +112,8 @@ dependencies {
     // implementation (files("libs/blurlib-release.aar"))
     kapt(libs.hilt.android.compiler)
 
+    implementation (libs.stream.log)
+
     implementation(libs.recyclerview)
 
     implementation (libs.material.v1100)
@@ -131,6 +133,7 @@ dependencies {
     implementation (libs.androidx.lifecycle.common.java8)
     implementation (libs.androidx.lifecycle.runtime.ktx)
     implementation (libs.androidx.lifecycle.extensions)
+    implementation (libs.androidx.swiperefreshlayout)
 
 
     implementation (libs.insetter)

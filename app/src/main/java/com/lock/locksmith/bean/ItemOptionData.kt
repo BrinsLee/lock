@@ -6,7 +6,7 @@ package com.lock.locksmith.bean
  * @desc
  */
 
-class AddItemData : ArrayList<AddItemDataItem>()
+class ItemOptionData : ArrayList<AddItemDataItem>()
 
 data class AddItemDataItem(
     val group_list: List<Group>,

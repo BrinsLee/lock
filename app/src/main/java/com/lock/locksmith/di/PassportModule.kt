@@ -1,5 +1,6 @@
 package com.lock.locksmith.di
 
+import com.lock.locksmith.repository.ItemClient
 import com.lock.locksmith.repository.PassportClient
 import dagger.Module
 import dagger.Provides
@@ -19,4 +20,8 @@ object PassportModule {
     @Provides
     @Singleton
     fun providePassportClient() = PassportClient.instance()
+
+    @Provides
+    @Singleton
+    fun provideItemClient() = ItemClient.instance()
 }

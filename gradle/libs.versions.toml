@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0-alpha11"
+agp = "8.4.0"
 appcompatV7 = "28.0.0"
 baserecyclerviewadapterhelper4 = "4.1.4"
 bcprovJdk15on = "1.67"
@@ -36,6 +36,8 @@ protobufJava = "3.22.3"
 protoc = "3.5.1"
 recyclerview = "1.3.1"
 leakcanary-android = "2.14"
+streamLog = "1.1.4"
+swiperefreshlayout = "1.1.0"
 
 [libraries]
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
@@ -50,6 +52,7 @@ androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-run
 androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 appcompat-v7 = { module = "com.android.support:appcompat-v7", version.ref = "appcompatV7" }
 base-recyclerView-adapter-helper4 = { module = "io.github.cymchad:BaseRecyclerViewAdapterHelper4", version.ref = "baserecyclerviewadapterhelper4" }
 bcprov-jdk15on = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bcprovJdk15on" }
@@ -79,6 +82,7 @@ protoc = { module = "com.google.protobuf:protoc", version.ref = "protoc" }
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobufJava" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary-android" }
+stream-log = { module = "io.getstream:stream-log", version.ref = "streamLog" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

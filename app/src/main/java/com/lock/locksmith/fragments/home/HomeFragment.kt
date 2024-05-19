@@ -225,12 +225,12 @@ class HomeFragment : AbsBaseFragment(R.layout.fragment_home) {
                     )
                 }
             })
-            searchSvView.listener =
+            /*searchSvView.listener =
                 object : AnimationNestedScrollView.OnAnimationScrollChangeListener {
                     override fun onScrollChanged(dy: Float) {
                         binding.searchRlTop.onScrollChanged(dy)
                     }
-                }
+                }*/
 
         }
     }

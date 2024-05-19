@@ -4,12 +4,23 @@ import android.util.Log
 import com.brins.locksmith.AccountItemOuterClass
 import com.brins.locksmith.AccountItemOuterClass.AccountItemMeta
 import com.google.protobuf.ByteString
+import com.google.protobuf.InvalidProtocolBufferException
+import com.lock.locksmith.model.password.PasswordData
+import com.lock.locksmith.model.querysort.ComparableFieldProvider
+import com.lock.locksmith.repository.PassportClient
 import com.lock.locksmith.utils.encrypt.aes256Decrypt
 import com.lock.locksmith.utils.encrypt.aes256Encrypt
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
 import java.io.Serializable
 import java.nio.charset.StandardCharsets
+import java.security.InvalidAlgorithmParameterException
+import java.security.InvalidKeyException
 import java.util.Objects
 import java.util.Objects.hash
+import javax.crypto.BadPaddingException
+import javax.crypto.IllegalBlockSizeException
 
 /**
  * @author lipeilin
@@ -18,11 +29,11 @@ import java.util.Objects.hash
  */
 
 abstract class BaseData(
-    val itemName: String = "",
-    val accountName: String,
-    val password: String,
-    val note: String,
-) : Serializable {
+    var itemName: String = "",
+    var accountName: String,
+    var password: String,
+    var note: String,
+) : Serializable, ComparableFieldProvider {
 
     companion object {
         private val TAG = this::class.java.simpleName
@@ -30,7 +41,48 @@ abstract class BaseData(
         const val ACCOUNT_NAME_KEY = "ACCOUNT_NAME_KEY"
         const val NOTE_KEY = "NOTE_KEY"
         const val PASSWORD_KEY = "PASSWORD_KEY"
+
+        @Throws(
+            IOException::class,
+            InvalidKeyException::class,
+            BadPaddingException::class,
+            InvalidAlgorithmParameterException::class,
+            IllegalBlockSizeException::class
+        )
+        inline fun <reified T> loadFromFile(file: File): T {
+            val fis = FileInputStream(file)
+            val item: AccountItemOuterClass.AccountItem =
+                AccountItemOuterClass.AccountItem.parseFrom(fis)
+            if (item.version != AccountItemOuterClass.AccountItemVersion.accountItemV20240426) {
+                throw RuntimeException("unsupported account item version " + item.version)
+            }
+            when (T::class) {
+                PasswordData::class -> {
+                    val result = PasswordData("", "", "", "")
+                    result.apply {
+                        metaData = this.decryptMeta(item)
+                        generalItems = this.decryptGeneralItems(item, metaData!!)
+                        itemName = generalItems[ITEM_NAME_KEY] ?: ""
+                        accountName = generalItems[ACCOUNT_NAME_KEY] ?: ""
+                        note = generalItems[NOTE_KEY] ?: ""
+                        // password = generalItems[PASSWORD_KEY] ?: ""
+                        secretedData = AesEncryptedData(
+                            item.secret.data.toByteArray(),
+                            item.secret.iv.toByteArray(),
+                            item.secret.tag.toByteArray()
+                        )
+                    }
+                    return result as T
+                }
+
+                else -> {
+                }
+            }
+            return PasswordData("", "", "", "") as T
+        }
     }
+
+    // var bid: String = ""
 
     /**
      * 加密数据
@@ -54,11 +106,16 @@ abstract class BaseData(
     abstract fun createMetaData()
 
     init {
-        this.createMetaData()
-        generalItems[ITEM_NAME_KEY] = itemName
-        generalItems[ACCOUNT_NAME_KEY] = accountName
-        if (note.isNotEmpty()) {
-            generalItems[NOTE_KEY] = note
+        if (itemName.isNotEmpty()) {
+            // 新增
+            this.createMetaData()
+            generalItems[ITEM_NAME_KEY] = itemName
+            generalItems[ACCOUNT_NAME_KEY] = accountName
+            if (note.isNotEmpty()) {
+                generalItems[NOTE_KEY] = note
+            }
+        } else {
+            // loadFromFile
         }
     }
 
@@ -91,6 +148,9 @@ abstract class BaseData(
         }
 
         val plainText = builder.build().toByteArray()
+        if (metaData == null) {
+            return null
+        }
         return try {
             aes256Encrypt(metaData!!.accountKey.toByteArray(), plainText)
         } catch (e: Exception) {
@@ -139,5 +199,50 @@ abstract class BaseData(
             this.password == newItem.password &&
             this.note == newItem.note &&
             this.generalItems == newItem.generalItems
+    }
+
+    @Throws(
+        IllegalBlockSizeException::class,
+        BadPaddingException::class,
+        InvalidAlgorithmParameterException::class,
+        InvalidKeyException::class,
+        InvalidProtocolBufferException::class
+    )
+    fun decryptMeta(data: AccountItemOuterClass.AccountItem): AccountItemOuterClass.AccountItemMeta? {
+        val decrypted: ByteArray =
+            PassportClient.instance().decryptData(data.meta.data.toByteArray(), data.meta.iv.toByteArray())
+        return AccountItemOuterClass.AccountItemMeta.parseFrom(decrypted)
+    }
+
+    @Throws(
+        IllegalBlockSizeException::class,
+        BadPaddingException::class,
+        InvalidAlgorithmParameterException::class,
+        InvalidKeyException::class,
+        InvalidProtocolBufferException::class
+    )
+    fun decryptGeneralItems(
+        data: AccountItemOuterClass.AccountItem,
+        meta: AccountItemOuterClass.AccountItemMeta
+    ): MutableMap<String, String> {
+        val decrypted: ByteArray = aes256Decrypt(
+            meta.accountKey.toByteArray(),
+            data.general.data.toByteArray(),
+            data.general.iv.toByteArray()
+        )
+        val general = AccountItemOuterClass.AccountGeneralData.parseFrom(decrypted)
+        val generals: MutableMap<String, String> = java.util.HashMap()
+        for (item in general.itemsList) {
+            generals[item.key] = item.value
+        }
+        return generals
+    }
+
+    override fun getComparableField(fieldName: String): Comparable<*>? {
+        return when (fieldName) {
+            "itemName" -> itemName
+            "accountName" -> accountName
+            else -> itemName
+        }
     }
 }

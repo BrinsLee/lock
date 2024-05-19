@@ -12,8 +12,10 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.apptheme.helper.ThemeStore
 import com.lock.locksmith.activities.ErrorActivity
 import com.lock.locksmith.activities.MainActivity
+import com.lock.locksmith.repository.ItemClient
 import com.lock.locksmith.repository.PassportClient
 import dagger.hilt.android.HiltAndroidApp
+import io.getstream.log.StreamLog
 import java.util.Stack
 
 /**
@@ -46,6 +48,7 @@ class LockSmithApplication : Application(), ActivityLifecycleCallbacks {
 
     private fun initPasswordClient() {
         PassportClient.Builder(this).build()
+        ItemClient.getInstance(this)
     }
 
     private fun initErrorActivity() {

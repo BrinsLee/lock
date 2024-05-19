@@ -25,19 +25,9 @@ import javax.inject.Inject
 class PassportViewModel @Inject constructor (private val passportRepository: IPassportRepository): BaseViewModel() {
 
 
-    private val _itemDataListState: MutableStateFlow<BaseDataListState> =
-        MutableStateFlow(BaseDataListState(isLoading = true))
-    public val messageListState: StateFlow<BaseDataListState> = _itemDataListState
+
 
     fun loadPassport() = passportRepository.loadPassport()
-
-    init {
-        observeItemDataListState()
-    }
-
-    private fun observeItemDataListState() {
-
-    }
 
     fun handlerEvent(event: PassportEvent) {
         viewModelScope.launch {

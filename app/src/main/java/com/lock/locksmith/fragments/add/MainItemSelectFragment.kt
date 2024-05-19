@@ -3,7 +3,6 @@ package com.lock.locksmith.fragments.add
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,8 +18,6 @@ import com.lock.locksmith.databinding.FragmentMainRecyclerBinding
 import com.lock.locksmith.extensions.dip
 import com.lock.locksmith.fragments.base.AbsRecyclerViewFragment
 import com.lock.locksmith.viewmodel.AddItemViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
  * @author lipeilin
@@ -68,7 +65,7 @@ class MainItemSelectFragment: AbsRecyclerViewFragment<ConcatAdapter, RecyclerVie
             adapter = mAdapter
         }
         addItemViewModel = (absBaseActivity as MainActivity).getAddItemViewModel()
-        addItemViewModel.itemData.observe(viewLifecycleOwner) {
+        addItemViewModel.itemOptionData.observe(viewLifecycleOwner) {
             it.forEach {
                 val adapter = GroupAdapter()
                 adapter.setOnDebouncedItemClick(block = onItemClickListener)
