@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.DialogInterface.OnDismissListener
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.navOptions
@@ -58,9 +61,39 @@ open class AbsBaseFragment(@LayoutRes layout: Int): Fragment(layout), ILoading {
         Log.d("AbsFragment", "onCreate fragment: ${this::class.java.simpleName} hashcode: ${this}")
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Log.d("AbsFragment", "onCreateView fragment: ${this::class.java.simpleName} hashcode: ${this}")
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("AbsFragment", "onViewCreated fragment: ${this::class.java.simpleName} hashcode: ${this}")
+
+    }
+
     override fun onStart() {
         super.onStart()
         Log.d("AbsFragment", "onStart fragment: ${this::class.java.simpleName} hashcode: ${this}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("AbsFragment", "onResume fragment: ${this::class.java.simpleName} hashcode: ${this}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("AbsFragment", "onPause fragment: ${this::class.java.simpleName} hashcode: ${this}")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("AbsFragment", "onStop fragment: ${this::class.java.simpleName} hashcode: ${this}")
     }
 
     override fun onDestroyView() {

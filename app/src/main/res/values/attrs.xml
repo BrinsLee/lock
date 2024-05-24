@@ -11,5 +11,9 @@
         <attr name="url_link" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="LockUiStyleable">
+        <attr name="lockUiItemListViewStyle" format="reference" />
+
+    </declare-styleable>
 
 </resources>

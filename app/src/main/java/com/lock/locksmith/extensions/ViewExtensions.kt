@@ -3,16 +3,21 @@ package com.lock.locksmith.extensions
 import android.R
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -20,6 +25,7 @@ import androidx.core.view.drawToBitmap
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigationrail.NavigationRailView
@@ -28,6 +34,7 @@ import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
 import java.util.Locale
+import kotlin.math.roundToInt
 
 /**
  * @author lipeilin
@@ -170,9 +177,20 @@ fun NavigationBarView.hide() {
 }
 
 
+fun View.showToast(@StringRes resId: Int) {
+    Toast.makeText(context, context.getString(resId), Toast.LENGTH_SHORT).show()
+}
 
+val RecyclerView.ViewHolder.context: Context
+    get() = itemView.context
 
 inline val Int.dp: Int
     get() {
         return (this * LockSmithApplication.getContext().resources.displayMetrics.density + 0.5f).toInt()
     }
+
+public fun Int.dpToPx(): Int = dpToPxPrecise().roundToInt()
+
+public fun Int.dpToPxPrecise(): Float = (this * displayMetrics().density)
+
+internal fun displayMetrics(): DisplayMetrics = Resources.getSystem().displayMetrics

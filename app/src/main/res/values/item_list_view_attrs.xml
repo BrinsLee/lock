@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ItemListView">
+        <attr name="lockUiItemSeparatorDrawable" format="reference" />
+        <attr name="lockUiItemCopyIcon" format="reference" />
+        <attr name="lockUiItemDeleteIcon" format="reference" />
+        <attr name="lockUiItemCopyEnabled" format="boolean" />
+        <attr name="lockUiItemDeleteEnabled" format="boolean" />
+        <attr name="lockUiSwipeEnabled" format="boolean" />
+        <!--整个列表背景颜色-->
+        <attr name="lockUiItemListBackgroundColor" format="color|reference" />
+        <attr name="lockUiBackgroundLayoutColor" format="color|reference" />
+
+        <attr name="lockUiItemTitleTextSize" format="dimension|reference" />
+        <!-- A color of the Item title text -->
+        <attr name="lockUiItemTitleTextColor" format="color|reference" />
+        <!-- Font name of the Item title text -->
+        <attr name="lockUiItemTitleTextFont" format="reference" />
+        <!-- Font assets reference for the Item title text -->
+        <attr name="lockUiItemTitleFontAssets" format="string" />
+        <!-- Text style of the Item title text: "normal", "bold", and "italic". -->
+        <attr name="lockUiItemTitleTextStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+
+        <!-- Text size of the account name text -->
+        <attr name="lockUiAccountNameTextSize" format="dimension|reference" />
+        <!-- A color of the account name text -->
+        <attr name="lockUiAccountNameTextColor" format="color|reference" />
+        <!-- Font name of the account name text -->
+        <attr name="lockUiAccountNameTextFont" format="reference" />
+        <!-- Font assets reference for the account name text -->
+        <attr name="lockUiAccountNameFontAssets" format="string" />
+        <!-- Text style of the account name text: "normal", "bold", and "italic". -->
+        <attr name="lockUiAccountNameTextStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+
+        <!-- Text size of the date text -->
+        <attr name="lockUiUpdateDateTextSize" format="dimension|reference" />
+        <!-- A color of the date text -->
+        <attr name="lockUiUpdateDateTextColor" format="color|reference" />
+        <!-- Font name of the date text -->
+        <attr name="lockUiUpdateDateTextFont" format="reference" />
+        <!-- Font assets reference for the date text -->
+        <attr name="lockUiUpdateDateFontAssets" format="string" />
+        <!-- Text style of the date text: "normal", "bold", and "italic". -->
+        <attr name="lockUiUpdateDateTextStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+
+        <attr name="lockUiForegroundLayoutColor" format="color|reference" />
+        <attr name="lockUiItemHeight" format="dimension|reference" />
+        <attr name="lockUiItemMarginStart" format="dimension|reference" />
+        <attr name="lockUiItemMarginEnd" format="dimension|reference" />
+        <attr name="lockUiItemTitleMarginStart" format="dimension|reference" />
+        <attr name="lockUiItemVerticalSpacerHeight" format="dimension|reference" />
+        <attr name="lockUiItemVerticalSpacerPosition" format="float|dimension|reference" />
+
+        <!-- Reference to layout resource of the channel list "loading" view -->
+        <attr name="lockUiLoadingView" format="reference" />
+        <!-- Reference to layout resource of the channel list empty state view -->
+        <attr name="lockUiEmptyStateView" format="reference" />
+        <!-- Reference to layout resource of the channel list "loading more" view -->
+        <attr name="lockUiLoadingMoreView" format="reference" />
+    </declare-styleable>
+</resources>

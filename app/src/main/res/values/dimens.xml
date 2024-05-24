@@ -81,4 +81,17 @@
     <dimen name="vault_item_icon_margin_right">10dp</dimen>
     <dimen name="vault_item_icon_width">50dp</dimen>
     <dimen name="vault_item_largeicon_width">60dp</dimen>
+
+    <!--Channel List Items-->
+    <dimen name="lock_ui_sample_item_list_item_height">55dp</dimen>
+    <dimen name="lock_ui_item_list_item_height">80dp</dimen>
+    <dimen name="lock_ui_item_list_item_margin_start">8dp</dimen>
+    <dimen name="lock_ui_item_list_item_margin_end">8dp</dimen>
+    <dimen name="lock_ui_item_list_item_title_margin_start">8dp</dimen>
+    <dimen name="lock_ui_item_list_item_vertical_spacer_height">0dp</dimen>
+    <item type="dimen" format="float" name="lock_ui_item_list_item_vertical_spacer_position">0.5</item>
+    <dimen name="lock_ui_item_list_item_option_icon_width">50dp</dimen>
+    <dimen name="lock_ui_item_item_progress_bar_size">20dp</dimen>
+    <dimen name="lock_ui_item_list_item_loading_height">90dp</dimen>
+    <dimen name="lock_ui_avatar_size_medium">40dp</dimen>
 </resources>

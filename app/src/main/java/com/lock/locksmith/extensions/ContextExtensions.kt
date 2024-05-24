@@ -1,13 +1,18 @@
 package com.lock.locksmith.extensions
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.ArrayRes
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -26,6 +31,30 @@ val Context.isTablet: Boolean get() = resources.configuration.smallestScreenWidt
 
 fun Context.getTintedDrawable(@DrawableRes id: Int, @ColorInt color: Int): Drawable {
     return ContextCompat.getDrawable(this, id)?.tint(color)!!
+}
+
+internal val Context.isRtlLayout: Boolean
+    get() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+
+@Px
+
+public fun Context.getDimension(@DimenRes dimen: Int): Int {
+    return resources.getDimensionPixelSize(dimen)
+}
+
+internal fun Context.getIntArray(@ArrayRes id: Int): IntArray {
+    return resources.getIntArray(id)
+}
+
+
+
+public fun Context.getColorStateListCompat(@ColorRes color: Int): ColorStateList? {
+    return ContextCompat.getColorStateList(this, color)
+}
+
+
+public fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable? {
+    return ContextCompat.getDrawable(this, id)
 }
 
 

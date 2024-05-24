@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#7A7A7A</color>
 
     <color name="window_color">@color/md_white_1000</color>
     <color name="window_color_light">@color/md_white_1000</color>
@@ -33,4 +34,9 @@
     <color name="darkDark10">#1a000000</color>
     <color name="darkDark5">#0d000000</color>
     <color name="darkDark3">#08000000</color>
+
+    <color name="lock_ui_border">#E8E8E8</color>
+    <color name="lock_ui_white_smoke">#F2F2F2</color>
+
+    <color name="stream_ui_accent_red">#FF3742</color>
 </resources>

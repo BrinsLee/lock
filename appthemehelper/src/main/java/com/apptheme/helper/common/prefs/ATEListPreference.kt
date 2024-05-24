@@ -15,7 +15,10 @@ package com.apptheme.helper.common.prefs
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.preference.ListPreference
+import com.apptheme.helper.ThemeStore
 
 class ATEListPreference @JvmOverloads constructor(
     context: Context,
@@ -28,5 +31,8 @@ class ATEListPreference @JvmOverloads constructor(
         if (summary == null || summary.toString().trim { it <= ' ' }.isEmpty()) {
             summary = "%s"
         }
+        icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            ThemeStore.accentColor(context), BlendModeCompat.SRC_IN
+        )
     }
 }

@@ -87,7 +87,7 @@ class AddItemViewModel @Inject constructor(private val repository: IAddItemRepos
     /**
      * 每次查询条数
      */
-    private val limit: Int = 30
+    private val limit: Int = 5
 
     companion object {
         @JvmField
@@ -135,7 +135,7 @@ class AddItemViewModel @Inject constructor(private val repository: IAddItemRepos
                     setPaginationState { copy(loadingMore = loadingMore) }
                 }
                 paginationStateMerger.addFlow(queryJob, queryItemsState.endOfItems) { endOfChannels ->
-                    setPaginationState { copy(endOfChannels = endOfChannels) }
+                    setPaginationState { copy(endOfItems = endOfChannels) }
                 }
             }
         }
@@ -225,7 +225,7 @@ class AddItemViewModel @Inject constructor(private val repository: IAddItemRepos
 
     public data class PaginationState(
         val loadingMore: Boolean = false,
-        val endOfChannels: Boolean = false,
+        val endOfItems: Boolean = false,
     )
 
     private fun buildDefaultFilter(): FilterObject {

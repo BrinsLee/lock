@@ -34,6 +34,7 @@
     </style>
 
     <style name="TextViewSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+
     </style>
 
     <style name="TextViewNormal" parent="">
@@ -128,5 +129,50 @@
         <item name="cornerSizeTopRight">0dp</item>
     </style>
 
+    <style name="LockUi">
+        <!--Common styles properties-->
+    </style>
 
+    <style name="LockUi.ItemListView" parent="LockUi">
+        <item name="lockUiItemHeight">@dimen/lock_ui_item_list_item_height</item>
+        <item name="lockUiItemSeparatorDrawable">@drawable/lock_ui_divider</item>
+
+        <item name="lockUiItemCopyIcon">@drawable/lock_ui_ic_copy</item>
+        <item name="lockUiItemDeleteIcon">@drawable/lock_ui_ic_delete</item>
+        <item name="lockUiItemCopyEnabled">true</item>
+        <item name="lockUiItemDeleteEnabled">true</item>
+        <item name="lockUiSwipeEnabled">true</item>
+        <item name="lockUiBackgroundLayoutColor">@color/lock_ui_white_smoke</item>
+
+        <item name="lockUiItemMarginStart">@dimen/lock_ui_item_list_item_margin_start</item>
+        <item name="lockUiItemMarginEnd">@dimen/lock_ui_item_list_item_margin_end</item>
+        <item name="lockUiItemTitleMarginStart">@dimen/lock_ui_item_list_item_title_margin_start</item>
+        <item name="lockUiItemVerticalSpacerHeight">@dimen/lock_ui_item_list_item_vertical_spacer_height</item>
+        <item name="lockUiItemVerticalSpacerPosition">@dimen/lock_ui_item_list_item_vertical_spacer_position</item>
+        <item name="lockUiItemTitleTextSize">@dimen/lock_ui_item_item_title</item>
+        <item name="lockUiItemTitleTextColor">?android:attr/textColorSecondary</item>
+        <item name="lockUiItemTitleTextStyle">bold</item>
+
+        <item name="lockUiAccountNameTextSize">@dimen/lock_ui_item_item_accountname</item>
+        <item name="lockUiAccountNameTextColor">@color/grey</item>
+        <item name="lockUiAccountNameTextStyle">normal</item>
+
+        <item name="lockUiUpdateDateTextSize">@dimen/lock_ui_item_item_update_date</item>
+        <item name="lockUiUpdateDateTextColor">@color/grey</item>
+        <item name="lockUiUpdateDateTextStyle">normal</item>
+
+        <item name="lockUiForegroundLayoutColor">@color/white</item>
+
+
+
+
+        <item name="lockUiLoadingView">@layout/default_loading_view</item>
+        <item name="lockUiLoadingMoreView">@layout/default_item_list_loading_more_view</item>
+        <item name="lockUiEmptyStateView">@layout/empty_view</item>
+
+    </style>
+
+    <dimen name="lock_ui_item_item_title">15sp</dimen>
+    <dimen name="lock_ui_item_item_accountname">13sp</dimen>
+    <dimen name="lock_ui_item_item_update_date">13sp</dimen>
 </resources>

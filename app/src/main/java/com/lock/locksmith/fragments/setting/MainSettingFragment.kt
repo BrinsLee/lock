@@ -18,6 +18,7 @@ import com.lock.locksmith.ACCENT_COLOR
 import com.lock.locksmith.GENERAL_THEME
 import com.lock.locksmith.LANGUAGE_NAME
 import com.lock.locksmith.R
+import com.lock.locksmith.extensions.getTintedDrawable
 import com.lock.locksmith.extensions.materialDialog
 import com.lock.locksmith.utils.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,18 +93,21 @@ class MainSettingFragment: AbsSettingFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val languagePreference: Preference? = findPreference(LANGUAGE_NAME)
-        languagePreference?.setOnPreferenceChangeListener { prefs, newValue ->
-            setSummary(prefs, newValue)
-            if (newValue as? String == "auto") {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
-            } else {
-                AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.forLanguageTags(
-                        newValue as? String
+        languagePreference?.apply {
+
+            setOnPreferenceChangeListener { prefs, newValue ->
+                setSummary(prefs, newValue)
+                if (newValue as? String == "auto") {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+                } else {
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(
+                            newValue as? String
+                        )
                     )
-                )
+                }
+                true
             }
-            true
         }
     }
 }

@@ -54,5 +54,8 @@
     <string name="init_passport_success">Passport init success</string>
     <string name="saved">Saved</string>
     <string name="empty_no_data">Empty, Click to add</string>
+    <string name="delete_item_error">fail to delete item</string>
+    <string name="add_item_error">fail to add item</string>
+    <string name="update_item_error">fail to update item</string>
 
 </resources>

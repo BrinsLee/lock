@@ -21,6 +21,7 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
+import com.apptheme.helper.ThemeStore
 import com.apptheme.helper.utils.ColorUtil
 import com.theme.helper.R
 
@@ -40,10 +41,7 @@ class ATEColorPreference @JvmOverloads constructor(
         isPersistent = false
 
         icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            ColorUtil.resolveColor(
-                context,
-                android.R.attr.colorControlNormal
-            ), BlendModeCompat.SRC_IN
+            ThemeStore.accentColor(context), BlendModeCompat.SRC_IN
         )
     }
     /*override fun onBindView(view: View) {

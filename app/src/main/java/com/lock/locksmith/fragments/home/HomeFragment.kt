@@ -74,7 +74,6 @@ class HomeFragment : AbsBaseFragment(R.layout.fragment_home) {
 
         titleList = TABS_TITLE.toMutableList()
             .mapIndexed { index, string -> TabBean(index.toString(), string) }
-
     }
 
     override fun onCreateView(
@@ -98,10 +97,24 @@ class HomeFragment : AbsBaseFragment(R.layout.fragment_home) {
         initTabAndPager()
     }
 
+    private fun initTabData() {
+        if (fragmentList.isEmpty()) {
+            titleList.forEach {
+                fragmentList.add(VaultFragment.newInstance(it))
+            }
+
+        }
+        try {
+            binding.viewPager.offscreenPageLimit = titleList.size
+        } catch (ignore: Throwable) {
+        }
+    }
+
     private fun initTabAndPager() {
 
         fragmentAdapter = ViewPagerAdapter(requireActivity(), fragmentList)
         binding.viewPager.adapter = fragmentAdapter
+        binding.viewPager.isUserInputEnabled = false
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
@@ -202,17 +215,7 @@ class HomeFragment : AbsBaseFragment(R.layout.fragment_home) {
         )
     }
 
-    private fun initTabData() {
-        if (fragmentList.isEmpty()) {
-            titleList.forEach {
-                fragmentList.add(VaultFragment.newInstance(it))
-            }
-            try {
-                binding.viewPager.offscreenPageLimit = titleList.size
-            } catch (ignore: Throwable) {
-            }
-        }
-    }
+
 
     private fun setupListener() {
         binding.apply {

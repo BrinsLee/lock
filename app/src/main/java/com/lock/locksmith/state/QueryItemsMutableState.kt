@@ -94,7 +94,7 @@ class QueryItemsMutableState(
     }
 
     /**
-     * Set the end of channels.
+     * Set the end of items.
      *
      * @parami isEnd Boolean
      */
