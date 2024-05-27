@@ -42,14 +42,15 @@ data class ItemListViewStyle(
     @Px public val itemVerticalSpacerPosition: Float,
 ) : ViewStyle {
 
-    internal companion object {
-        operator fun invoke(context: Context, attrs: AttributeSet?): ItemListViewStyle {
-            context.obtainStyledAttributes(
+    companion object {
+        fun initStyle(context: Context, attrs: AttributeSet?): ItemListViewStyle {
+            val a = context.obtainStyledAttributes(
                 attrs,
                 R.styleable.ItemListView,
                 R.attr.lockUiItemListViewStyle,
                 R.style.LockUi_ItemListView
-            ).use { a->
+            )
+            a.let { a->
                 val copyIcon = a.getDrawable(R.styleable.ItemListView_lockUiItemCopyIcon)?: context.getDrawableCompat(R.drawable.lock_ui_ic_copy)!!
 
                 val deleteIcon = a.getDrawable(R.styleable.ItemListView_lockUiItemDeleteIcon)?: context.getDrawableCompat(R.drawable.lock_ui_ic_delete)!!
@@ -63,16 +64,16 @@ data class ItemListViewStyle(
                 val backgroundColor = a.getColor(R.styleable.ItemListView_lockUiItemListBackgroundColor, context.getColor(R.color.lock_ui_white_smoke))
 
                 val itemTitleText = TextStyle.Builder(a).
-                    size(R.styleable.ItemListView_lockUiItemTitleTextSize, context.getDimension(R.dimen.lock_ui_item_item_title)).
-                    color(R.styleable.ItemListView_lockUiItemTitleTextColor, context.getColorCompat(
-                        com.afollestad.materialdialogs.R.color.md_list_item_textcolor)).
-                    style(R.styleable.ItemListView_lockUiItemTitleTextStyle, Typeface.BOLD).build()
+                size(R.styleable.ItemListView_lockUiItemTitleTextSize, context.getDimension(R.dimen.lock_ui_item_item_title)).
+                color(R.styleable.ItemListView_lockUiItemTitleTextColor, context.getColorCompat(
+                    com.afollestad.materialdialogs.R.color.md_list_item_textcolor)).
+                style(R.styleable.ItemListView_lockUiItemTitleTextStyle, Typeface.BOLD).build()
 
                 val itemAccountNameText = TextStyle.Builder(a).
-                    size(R.styleable.ItemListView_lockUiAccountNameTextSize, context.getDimension(R.dimen.lock_ui_item_item_accountname)).
-                    color(R.styleable.ItemListView_lockUiAccountNameTextColor, context.getColorCompat(
-                        R.color.grey)).
-                    style(R.styleable.ItemListView_lockUiItemTitleTextStyle, Typeface.NORMAL).build()
+                size(R.styleable.ItemListView_lockUiAccountNameTextSize, context.getDimension(R.dimen.lock_ui_item_item_accountname)).
+                color(R.styleable.ItemListView_lockUiAccountNameTextColor, context.getColorCompat(
+                    R.color.grey)).
+                style(R.styleable.ItemListView_lockUiItemTitleTextStyle, Typeface.NORMAL).build()
 
                 val itemUpdateDateText = TextStyle.Builder(a).
                 size(R.styleable.ItemListView_lockUiUpdateDateTextSize, context.getDimension(R.dimen.lock_ui_item_item_update_date)).
@@ -141,6 +142,7 @@ data class ItemListViewStyle(
                         R.dimen.lock_ui_item_list_item_vertical_spacer_position,
                     ),
                 )
+                a.recycle()
 
                 return ItemListViewStyle(
                     copyIcon = copyIcon,

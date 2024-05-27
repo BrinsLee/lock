@@ -25,6 +25,7 @@ import androidx.core.view.isVisible
 import com.lock.locksmith.databinding.ListItemForegroundViewBinding
 import com.lock.locksmith.extensions.isRtlLayout
 import com.lock.locksmith.views.style.setTextStyle
+import org.bouncycastle.util.encoders.Hex
 import kotlin.math.absoluteValue
 
 /**
@@ -112,7 +113,7 @@ class ItemViewHolder @JvmOverloads constructor(
     ) {
         binding.itemForegroundView.apply {
             diff.run {
-                val accountName = normalItem.item.accountName
+                // val accountName = "${normalItem.item.itemName}-${Hex.toHexString(normalItem.item.getMetaAccountId())}"
                 if (nameChanged || accountNameChanged) {
                     configureItemNameLabel(normalItem.item.itemName)
                 }

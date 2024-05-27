@@ -14,6 +14,8 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import androidx.viewpager2.widget.ViewPager2
 import com.apptheme.helper.ThemeStore
 import com.apptheme.helper.utils.ColorUtil
@@ -62,6 +64,15 @@ class HomeFragment : AbsBaseFragment(R.layout.fragment_home) {
 
     private var selectPosition = 0
 
+    private var onScrollListener: RecyclerView.OnScrollListener = object : OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val computeDy = recyclerView.computeVerticalScrollOffset() * 1f
+            val s = if (dy > 0) "上滑" else "下滑"
+            Log.d("dydydy", "dydydydy ${s} ${dy}")
+            binding.searchRlTop.onScrollChanged(dy * 0.65f)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -100,7 +111,7 @@ class HomeFragment : AbsBaseFragment(R.layout.fragment_home) {
     private fun initTabData() {
         if (fragmentList.isEmpty()) {
             titleList.forEach {
-                fragmentList.add(VaultFragment.newInstance(it))
+                fragmentList.add(VaultFragment.newInstance(it, onScrollListener))
             }
 
         }

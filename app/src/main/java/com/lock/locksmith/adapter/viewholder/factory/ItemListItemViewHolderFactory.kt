@@ -86,7 +86,7 @@ class ItemListItemViewHolderFactory {
             iconProviderContainer = ItemListIconProviderContainerImpl()
         }
         if (!::style.isInitialized) {
-            style = ItemListViewStyle(context, null)
+            style = ItemListViewStyle.initStyle(context, null)
         }
     }
 }

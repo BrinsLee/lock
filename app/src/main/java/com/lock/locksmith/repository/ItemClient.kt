@@ -89,7 +89,7 @@ class ItemClient private constructor(val context: Context) {
                     val filterFiles = value.listFiles()?.filter {
                         it.isFile // 后续加入自定义Filter
                     }?.sortedBy {
-                        it.name // 后续加入自定义排序
+                        it.lastModified() // 后续加入自定义排序
                     }?.drop(offset)
                         ?.take(pageSize)
                         ?.map { f ->

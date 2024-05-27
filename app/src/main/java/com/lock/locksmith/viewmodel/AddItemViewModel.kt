@@ -20,6 +20,8 @@ import com.lock.locksmith.state.ItemsStateData
 import com.lock.locksmith.state.QueryItemsState
 import com.lock.locksmith.viewmodel.AddItemViewModel.AddItemEvent.AddPasswordEvent
 import com.lock.locksmith.viewmodel.AddItemViewModel.AddItemEvent.AddSecureNoteEvent
+import com.lock.result.onErrorSuspend
+import com.lock.result.onSuccessSuspend
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -91,7 +93,7 @@ class AddItemViewModel @Inject constructor(private val repository: IAddItemRepos
 
     companion object {
         @JvmField
-        public val DEFAULT_SORT: QuerySorter<BaseData> = QuerySortByField.descByName("itemName")
+        public val DEFAULT_SORT: QuerySorter<BaseData> = QuerySortByField.ascByName("createDate")
 
         /**
          *  The initial state.
@@ -134,8 +136,8 @@ class AddItemViewModel @Inject constructor(private val repository: IAddItemRepos
                 paginationStateMerger.addFlow(queryJob, queryItemsState.loadingMore) { loadingMore ->
                     setPaginationState { copy(loadingMore = loadingMore) }
                 }
-                paginationStateMerger.addFlow(queryJob, queryItemsState.endOfItems) { endOfChannels ->
-                    setPaginationState { copy(endOfItems = endOfChannels) }
+                paginationStateMerger.addFlow(queryJob, queryItemsState.endOfItems) { endOfItems ->
+                    setPaginationState { copy(endOfItems = endOfItems) }
                 }
             }
         }
@@ -174,15 +176,29 @@ class AddItemViewModel @Inject constructor(private val repository: IAddItemRepos
         }
     }
 
+    public fun onAction(action: Action) {
+        when (action) {
+            is Action.ReachedEndOfList -> requestMoreItems()
+        }
+    }
+
+    private fun requestMoreItems() {
+        val queryItemsState = queryItemsState.value ?: return
+        queryItemsState.nextPageRequest.value?.let {
+            repository.queryItemsAsState(it, viewModelScope)
+
+        }
+    }
+
     fun handleEvent(event: AddItemEvent) {
-        _state.value = State.Loading
         viewModelScope.launch(Dispatchers.IO) {
+            _state.emit(State.Loading)
             when (event) {
                 is AddPasswordEvent -> {
-                    repository.saveItemData(event.itemData).onSuccess {
-                        _state.postValue(State.Result(""))
-                    }.onError {
-                        _state.postValue(State.Failure(it.message))
+                    repository.saveItemData(event.itemData).onSuccessSuspend {
+                        _state.emit(State.Result(""))
+                    }.onErrorSuspend {
+                        _state.emit((State.Failure(it.message)))
                     }
                 }
 
@@ -232,5 +248,15 @@ class AddItemViewModel @Inject constructor(private val repository: IAddItemRepos
         return Filters.and(
             Filters.eq("type", "messaging"),
         )
+    }
+
+
+    /**
+     * Describes the available actions that can be taken.
+     */
+    public sealed class Action {
+        public object ReachedEndOfList : Action() {
+            override fun toString(): String = "ReachedEndOfList"
+        }
     }
 }

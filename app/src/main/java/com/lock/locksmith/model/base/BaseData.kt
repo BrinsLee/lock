@@ -17,6 +17,7 @@ import java.io.Serializable
 import java.nio.charset.StandardCharsets
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
+import java.util.Date
 import java.util.Objects
 import java.util.Objects.hash
 import javax.crypto.BadPaddingException
@@ -105,6 +106,7 @@ abstract class BaseData(
      */
     abstract fun createMetaData()
 
+
     init {
         if (itemName.isNotEmpty()) {
             // 新增
@@ -182,6 +184,8 @@ abstract class BaseData(
 
     fun getMetaAccountId(): ByteArray = metaData!!.accountID.toByteArray()
 
+    fun getCreateDate(): Long = metaData!!.creationDate
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (!(other is BaseData)) return false
@@ -242,6 +246,7 @@ abstract class BaseData(
         return when (fieldName) {
             "itemName" -> itemName
             "accountName" -> accountName
+            "createDate" -> getCreateDate()
             else -> itemName
         }
     }

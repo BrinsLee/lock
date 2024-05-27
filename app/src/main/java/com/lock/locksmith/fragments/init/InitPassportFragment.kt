@@ -16,6 +16,7 @@ import com.lock.locksmith.fragments.dialog.ErrorInfoDialogFragment
 import com.lock.locksmith.viewmodel.AddItemViewModel
 import com.lock.locksmith.viewmodel.BaseViewModel.State
 import com.lock.locksmith.viewmodel.BaseViewModel.State.Failure
+import com.lock.locksmith.viewmodel.BaseViewModel.State.Idel
 import com.lock.locksmith.viewmodel.BaseViewModel.State.Loading
 import com.lock.locksmith.viewmodel.BaseViewModel.State.Result
 import com.lock.locksmith.viewmodel.PassportViewModel
@@ -66,21 +67,28 @@ class InitPassportFragment: AbsBaseFragment(R.layout.fragment_init_passport) {
 
     private fun setupObserver() {
         passportViewModel = (absBaseActivity as MainActivity).getPassportViewModel()
-        passportViewModel.state.observe(viewLifecycleOwner) {
-            when (it) {
-                is Loading -> {
-                    showLoadingDialog()
-                }
-                is Result -> {
-                    dismissLoadingDialog()
-                    handleInitSuccess()
-                }
+        lifecycleScope.launch {
+            passportViewModel.state.collect {
+                when (it) {
+                    is Loading -> {
+                        showLoadingDialog()
+                    }
+                    is Result -> {
+                        dismissLoadingDialog()
+                        handleInitSuccess()
+                    }
 
-                is Failure -> {
-                    dismissLoadingDialog()
+                    is Failure -> {
+                        dismissLoadingDialog()
+                    }
+
+                    is Idel -> {
+
+                    }
                 }
             }
         }
+
 
         passportViewModel.errorEvents.observe(viewLifecycleOwner) {
             val dialogFragment = ErrorInfoDialogFragment.create(getString(R.string.init_passport_error), getString(R.string.init_passport_error_detail))

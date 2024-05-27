@@ -128,7 +128,7 @@ class ItemListView : FrameLayout {
     }
 
     private fun initView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
-        style = ItemListViewStyle(context, attrs)
+        style = ItemListViewStyle.initStyle(context, attrs)
 
         setBackgroundColor(style.backgroundColor)
 
@@ -137,6 +137,7 @@ class ItemListView : FrameLayout {
                 id = ITEM_LIST_VIEW_ID
                 setItemListViewStyle(style)
             }
+        setItemSeparatorHeight(style.itemVerticalSpacerHeight)
         addView(
             simpleItemListView,
             LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
@@ -238,7 +239,7 @@ class ItemListView : FrameLayout {
     }
 
     fun setItemSeparatorHeight(dp: Int) {
-        simpleItemListView.setItemSeparatorHeight(dp.dpToPx())
+        simpleItemListView.setItemSeparatorHeight(dp)
     }
 
     fun setShouldDrawItemSeparatorOnLastItem(shouldDrawOnLastItem: Boolean) {
@@ -350,6 +351,13 @@ class ItemListView : FrameLayout {
      */
     fun setOnEndReachedListener(listener: EndReachedListener?) {
         simpleItemListView.setOnEndReachedListener(listener)
+    }
+
+    /**
+     * set the custom scrollChangeListener
+     */
+    fun setOnScrollChangeListener(listener: RecyclerView.OnScrollListener) {
+        simpleItemListView.setScrollChangeListener(listener)
     }
 
     /**

@@ -116,6 +116,7 @@ open class AbsBaseFragment(@LayoutRes layout: Int): Fragment(layout), ILoading {
     }
 
     override fun dismissLoadingDialog() {
+
         absBaseActivity?.dismissLoadingDialog()
     }
 }

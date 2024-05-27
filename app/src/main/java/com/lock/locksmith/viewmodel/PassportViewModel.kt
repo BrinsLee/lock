@@ -8,6 +8,8 @@ import com.lock.locksmith.model.password.PasswordData
 import com.lock.locksmith.repository.passport.IPassportRepository
 import com.lock.locksmith.viewmodel.BaseViewModel.ErrorEvent.InitPassportError
 import com.lock.result.Error
+import com.lock.result.onErrorSuspend
+import com.lock.result.onSuccessSuspend
 import com.lock.state.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -31,13 +33,13 @@ class PassportViewModel @Inject constructor (private val passportRepository: IPa
 
     fun handlerEvent(event: PassportEvent) {
         viewModelScope.launch {
-            _state.value = State.Loading
+            _state.emit(State.Loading)
             delay(1000)
             when(event) {
                 is PassportEvent.InitPassportEvent -> {
-                    passportRepository.loadPassport().onSuccess {
-                        _state.value = State.Result("init passport success")
-                    }.onError {
+                    passportRepository.loadPassport().onSuccessSuspend {
+                        _state.emit(State.Result("init passport success"))
+                    }.onErrorSuspend {
                         createPassport()
                     }
                 }
@@ -45,17 +47,17 @@ class PassportViewModel @Inject constructor (private val passportRepository: IPa
         }
     }
 
-    private fun createPassport() {
+    private suspend fun createPassport() {
         try {
-            passportRepository.createPassport().onSuccess {
-                _state.value = State.Result("create passport success")
-            }.onError {
-                _state.value = State.Failure("create passport failure")
+            passportRepository.createPassport().onSuccessSuspend {
+                _state.emit(State.Result("create passport success"))
+            }.onErrorSuspend {
+                _state.emit(State.Failure("create passport failure"))
                 _errorEvents.value = Event(InitPassportError(Error.GenericError("create passport fail")))
             }
 
         }catch (e: Exception) {
-            _state.value = State.Failure("create passport failure")
+            _state.emit(State.Failure("create passport failure"))
             _errorEvents.value = Event(InitPassportError(Error.GenericError(e.message ?: "init passport fail")))
         }
     }

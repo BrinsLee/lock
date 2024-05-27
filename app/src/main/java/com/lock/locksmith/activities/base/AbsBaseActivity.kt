@@ -86,8 +86,9 @@ abstract class AbsBaseActivity : AbsThemeActivity(), ILoading{
     override fun dismissLoadingDialog() {
         if (!isFinishing) {
             if (mLoadingDialog != null) {
+                mLoadingDialog!!.dismiss()
+
                 if (mLoadingDialog.isShowing()) {
-                    mLoadingDialog!!.dismiss()
                 }
                 mLoadingDialog = null
             }

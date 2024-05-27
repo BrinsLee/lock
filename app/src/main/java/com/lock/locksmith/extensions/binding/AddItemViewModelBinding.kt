@@ -1,7 +1,9 @@
 package com.lock.locksmith.extensions.binding
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.distinctUntilChanged
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.lock.locksmith.adapter.listitem.ItemListItem
 import com.lock.locksmith.extensions.combineWith
 import com.lock.locksmith.viewmodel.AddItemViewModel
@@ -15,6 +17,7 @@ import com.lock.locksmith.views.ItemListView
 
 public fun AddItemViewModel.bindView(
     view: ItemListView,
+    onScrollListener: OnScrollListener?,
     lifecycleOwner: LifecycleOwner,
 ) {
     baseDataListState.combineWith(paginationState) { state, paginationState ->
@@ -35,6 +38,7 @@ public fun AddItemViewModel.bindView(
         }
         var list: List<ItemListItem> = state?.dataList?.map { ItemListItem.NormalItem(it) } ?: emptyList()
         if (paginationState?.loadingMore == true) {
+            Log.d("bindView", "${paginationState?.loadingMore}")
             list = list + ItemListItem.LoadingMoreItem
         }
         list to (state?.isLoading == true)
@@ -54,12 +58,13 @@ public fun AddItemViewModel.bindView(
                 view.setItems(emptyList())
             }
         }
-        /*if (loadingMore) {
-            helper.trailingLoadState = LoadState.NotLoading(endOfPage)
+    }
 
-        } else {
-            helper.trailingLoadState = LoadState.None
-        }*/
+    view.setOnEndReachedListener {
+        onAction(AddItemViewModel.Action.ReachedEndOfList)
+    }
+    onScrollListener?.let {
+        view.setOnScrollChangeListener(onScrollListener)
     }
 }
 

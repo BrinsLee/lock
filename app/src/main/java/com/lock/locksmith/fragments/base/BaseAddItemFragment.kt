@@ -1,12 +1,15 @@
 package com.lock.locksmith.fragments.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.core.view.MenuProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.apptheme.helper.ThemeStore
 import com.lock.locksmith.R
 import com.lock.locksmith.activities.MainActivity
@@ -18,8 +21,12 @@ import com.lock.locksmith.viewmodel.AddItemViewModel
 import com.lock.locksmith.viewmodel.AddItemViewModel.AddItemEvent.AddPasswordEvent
 import com.lock.locksmith.viewmodel.BaseViewModel
 import com.lock.locksmith.viewmodel.BaseViewModel.State.Failure
+import com.lock.locksmith.viewmodel.BaseViewModel.State.Idel
 import com.lock.locksmith.viewmodel.BaseViewModel.State.Loading
 import com.lock.locksmith.viewmodel.BaseViewModel.State.Result
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 /**
@@ -90,22 +97,32 @@ abstract class BaseAddItemFragment(@LayoutRes var childLayout: Int) :
     }
 
     private fun setupObserver() {
-        addItemViewModel.state.observe(viewLifecycleOwner) {
-            when (it) {
-                is Loading -> {
-                    showLoadingDialog()
-                }
-                is Result -> {
-                    dismissLoadingDialog()
-                    requireContext().showToast(getString(R.string.saved))
-                }
+        lifecycleScope.launch {
+            addItemViewModel.state.collect {
+                Log.d("STATE","${it.toString()}")
+                when (it) {
+                    is Loading -> {
+                        showLoadingDialog()
+                    }
+                    is Result -> {
+                        dismissLoadingDialog()
+                        requireContext().showToast(getString(R.string.saved))
+                        delay(500)
+                        findNavController().navigateUp()
+                    }
 
-                is Failure -> {
-                    dismissLoadingDialog()
-                    requireContext().showToast(it.errorMessage)
+                    is Failure -> {
+                        dismissLoadingDialog()
+                        requireContext().showToast(it.errorMessage)
+                    }
+
+                    is Idel -> {
+
+                    }
                 }
             }
         }
+
 
         addItemViewModel.errorEvents.observe(viewLifecycleOwner) {
             dismissLoadingDialog()

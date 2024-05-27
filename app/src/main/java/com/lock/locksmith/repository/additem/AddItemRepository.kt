@@ -1,5 +1,6 @@
 package com.lock.locksmith.repository.additem
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.lock.locksmith.ADD_ITEM_PATH
@@ -18,6 +19,7 @@ import com.lock.locksmith.utils.StringUtils
 import com.lock.locksmith.utils.gson.GroupDeserializer
 import com.lock.result.Result
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -50,9 +52,11 @@ class AddItemRepository @Inject constructor(private val client: PassportClient, 
     }
 
     override fun queryItemsAsState(queryItemsRequest: QueryItemsRequest, coroutineScope: CoroutineScope): StateFlow<QueryItemsState?> {
-        // StreamLog.i(TAG) { "[fetchItemDataState] dataLimit: $dataLimit" }
+        Log.i(TAG, "[queryItemsAsState] dataLimit: ${queryItemsRequest.limit} offset: ${queryItemsRequest.offset}" )
 
         val queryItemsState: QueryItemsMutableState = itemClient.queryItems(queryItemsRequest.filter, queryItemsRequest.querySort, coroutineScope) as QueryItemsMutableState
+        Log.i(TAG, "[queryItemsAsState] QueryItemsMutableState: ${queryItemsState.hashCode()}" )
+
         queryItemsState.also {
             it.setCurrentRequest(queryItemsRequest)
         }
@@ -66,12 +70,15 @@ class AddItemRepository @Inject constructor(private val client: PassportClient, 
         loadingPerPage(queryItemsState, true, hasOffset)
 
         coroutineScope.launch {
+            delay(500)
             stateFlow.emit(queryItemsState)
             try {
                 val itemsList = itemClient.fetchItemData(paginationRequest.itemOffset, paginationRequest.itemLimit).getOrNull() ?: emptyList()
                 val existingItems = queryItemsState.rawItems
                 val maps =  itemsList.map { Hex.toHexString(it.getMetaAccountId()) to it}
                 queryItemsState.setItems((existingItems ?: emptyMap()) + maps)
+                queryItemsState.setEndOfItems(itemsList.size < paginationRequest.itemLimit)
+                incrementItemsOffset(queryItemsState, itemsList.size)
             }catch (e: Exception) {
             }
             loadingPerPage(queryItemsState, false, hasOffset)
@@ -80,10 +87,19 @@ class AddItemRepository @Inject constructor(private val client: PassportClient, 
         return stateFlow
     }
 
+    internal fun incrementItemsOffset(mutableState: QueryItemsMutableState, size: Int) {
+        val currentItemsOffset = mutableState.itemsOffset.value
+        val newItemsOffset = currentItemsOffset + size
+        Log.i(TAG, "[updateItems] newItemsOffset: $newItemsOffset <= $currentItemsOffset" )
+        mutableState.setItemsOffset(newItemsOffset)
+    }
+
     private fun loadingPerPage(queryItemsRequest: QueryItemsMutableState, isLoading: Boolean, hasOffset: Boolean) {
         if (hasOffset) {
+            Log.i(TAG, "[loadingPerPage] setLoadingMore hasOffset: ${hasOffset} isLoading: ${isLoading}" )
             queryItemsRequest.setLoadingMore(isLoading)
         } else {
+            Log.i(TAG, "[loadingPerPage] setLoadingFirstPage hasOffset: ${hasOffset} isLoading: ${isLoading}" )
             queryItemsRequest.setLoadingFirstPage(isLoading)
         }
     }

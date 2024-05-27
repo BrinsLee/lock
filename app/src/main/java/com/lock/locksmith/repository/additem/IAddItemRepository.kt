@@ -21,4 +21,6 @@ interface IAddItemRepository {
     fun saveItemData(itemData: BaseData): Result<File>
 
     fun queryItemsAsState(queryItemsRequest: QueryItemsRequest, coroutineScope: CoroutineScope): StateFlow<QueryItemsState?>
+
+
 }

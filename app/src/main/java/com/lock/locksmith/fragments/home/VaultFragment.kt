@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.lock.locksmith.R
 import com.lock.locksmith.activities.MainActivity
 import com.lock.locksmith.bean.TabBean
@@ -39,6 +39,7 @@ class VaultFragment : AbsBaseFragment(R.layout.fragment_vault) {
             return notDataView
         }*/
 
+    var onScrollListener: OnScrollListener? = null
 
     companion object {
         fun newInstance(tabBean: TabBean): VaultFragment {
@@ -46,6 +47,15 @@ class VaultFragment : AbsBaseFragment(R.layout.fragment_vault) {
                 arguments = Bundle().apply {
                     putParcelable("tabBean", tabBean)
                 }
+            }
+        }
+
+        fun newInstance(tabBean: TabBean, scrollListener: OnScrollListener): VaultFragment {
+            return VaultFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable("tabBean", tabBean)
+                }
+                onScrollListener = scrollListener
             }
         }
     }
@@ -84,7 +94,7 @@ class VaultFragment : AbsBaseFragment(R.layout.fragment_vault) {
             }
         }
         with(binding.recyclerView) {
-            addItemViewModel.bindView(this, viewLifecycleOwner)
+            addItemViewModel.bindView(this, onScrollListener, viewLifecycleOwner)
             /*layoutManager = LinearLayoutManager(requireContext())
             adapter = adap
             addItemViewModel.bindView2(this, adap, viewLifecycleOwner)*/

@@ -37,6 +37,8 @@ class SimpleItemListView @JvmOverloads constructor(
     private lateinit var adapter: ItemListItemAdapter
     private var endReachedListener: ItemListView.EndReachedListener? = null
 
+    private var onScrollChangeListener: OnScrollListener? = null
+
     internal val listenerContainer = ItemListListenerContainerImpl()
 
     internal val visibilityContainer = ItemListVisibilityContainerImpl()
@@ -104,6 +106,11 @@ class SimpleItemListView @JvmOverloads constructor(
                     endReachedListener?.onEndReached()
                 }
             }
+            // onScrollChangeListener?.onScrollStateChanged(recyclerView, newState)
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            onScrollChangeListener?.onScrolled(recyclerView, dx, dy)
         }
 
         fun setPaginationEnabled(enabled: Boolean) {
@@ -202,4 +209,7 @@ class SimpleItemListView @JvmOverloads constructor(
         }
     }
 
+    fun setScrollChangeListener(listener: OnScrollListener) {
+        this.onScrollChangeListener = listener
+    }
 }

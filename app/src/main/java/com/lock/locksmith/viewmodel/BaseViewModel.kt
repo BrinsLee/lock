@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.lock.result.Error
 import com.lock.state.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * @author lipeilin
@@ -29,12 +33,12 @@ open class BaseViewModel: ViewModel() {
     /**
      * current saving info state
      */
-    protected open val _state: MutableLiveData<State> = MutableLiveData()
+    protected open val _state: MutableSharedFlow<State> = MutableSharedFlow(replay = 0)
 
     /**
      * current saving info state
      */
-    public val state: LiveData<State> = _state
+    public val state: SharedFlow<State> = _state
 
 
 
@@ -64,6 +68,12 @@ open class BaseViewModel: ViewModel() {
 
 
     public sealed class State {
+
+        object Idel: State() {
+            override fun toString(): String = "Idel"
+
+        }
+
         /**
          * Signifies that is loading.
          */
